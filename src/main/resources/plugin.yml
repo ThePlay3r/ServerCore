@@ -1,0 +1,92 @@
+name: ServerCore
+version: ${project.version}
+main: me.pljr.servercore.ServerCore
+api-version: 1.13
+depend: [PLJRApi]
+authors: [9hx]
+description: Essentials of a Spigot server.
+commands:
+  adelhome:
+    description: Admin command for deleting homes.
+  ahome:
+    description: Admin command for teleporting to homes.
+  ahomes:
+    description: Admin command for showing home list.
+  asethome:
+    description: Admin command for setting homes.
+  back:
+    description: Command for teleportation to last and death location.
+  ci:
+    description: Command for clearing inventory.
+  day:
+    description: Command for setting time to day.
+  delhome:
+    description: Command dor deleting homes.
+  delwarp:
+    description: Command for deleting warps.
+  fly:
+    description: Command for flight toggle.
+  fspeed:
+    description: Command for changing flight speed.
+  gamemode:
+    description: Command for changing in-game gamemode.
+  gma:
+    description: Command for setting gamemode to adventure.
+  gmc:
+    description: Command for setting gamemode to creative.
+  gms:
+    description: Command for setting gamemode to survival.
+  gmsp:
+    description: Command for setting gamemode to spectator.
+  homes:
+    description: Command for showing home list.
+  i:
+    description: Command for getting items by their material.
+  night:
+    description: Command for setting time to night.
+  rain:
+    description: Command for setting weather to rainy.
+  relore:
+    description: Command for changing lore of item.
+  rename:
+    description: Command for changing name of item.
+  home:
+    description: Command for teleporting to homes.
+  sethome:
+    description: Command for setting a home.
+  setwarp:
+    description: Command for setting a warp.
+  skull:
+    description: Command for getting in-game heads.
+  sun:
+    description: Command for setting weather to sunny.
+  thunder:
+    description: Command for setting weather to thunder.
+  topblock:
+    description: Command for teleporting to the highest block above.
+  tpaccept:
+    description: Command for accepting teleportation requests.
+  tpa:
+    description: Command for requessting teleportations.
+  tp:
+    description: Command for teleporting players.
+  tpdeny:
+    description: Command for declining teleportation requests.
+  tphere:
+    description: Command for teleporting players to yourself.
+  tpignore:
+    description: Command for adding or removing players from teleportation blocked list.
+  warp:
+    description: Command for teleporting to warps.
+  warps:
+    description: Command for showing list of warps.
+  wspeed:
+    description: Command for changing walk speed.
+  spawn:
+    description: Command for teleporting to spawn.
+  aspawn:
+    description: Admin command for teleporting to spawn.
+  setspawn:
+    description: Command for setting spawn location.
+  servercore:
+    description: Main command for ServerCore plugin.
