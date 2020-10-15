@@ -1,12 +1,12 @@
-# ServerCore
+# 🕹 ServerCore
 Spigot plugin for essential stuff.
 
 ----
 
-## Dependencies
+## 🔧 Dependencies
 - PLJRApi: https://www.github.com/ThePlay3r/ServerCore
 
-## Features
+## 📋 Features
 - Great variety of player and admin commands.
 - Time and Weather commands.
 - Item commands.
@@ -18,16 +18,19 @@ Spigot plugin for essential stuff.
 - MySQL Support.
 - Huge Configuration
 
-## Commands
+## 🎮 Commands
 - [Overview](https://github.com/ThePlay3r/ServerCore/wiki/Commands-And-Permissions#overview)
 - [Player Commands](https://github.com/ThePlay3r/ServerCore/wiki/Commands-And-Permissions#player-commands)
 - [Admin Commands](https://github.com/ThePlay3r/ServerCore/wiki/Commands-And-Permissions#admin-commands)
 
-## Configuration
-- [Default Configuration](https://github.com/ThePlay3r/ServerCore/blob/master/src/main/resources/config.yml)
-- [Configuration Usage](https://github.com/ThePlay3r/PLJRApi/wiki#configuration)
+## 🔎 Setup
+- [Wiki](https://github.com/ThePlay3r/ServerCore/wiki)
 
-## My plugins
+## 📁 Configuration
+- [Default Configuration](https://github.com/ThePlay3r/ServerCore/blob/master/src/main/resources/config.yml)
+- [General Usage](https://github.com/ThePlay3r/PLJRApi/wiki#configuration)
+
+## 📌 Other plugins
 | [ServerCore](https://github.com/ThePlay3r/ServerCore) `Spigot plugin for essential stuff.` <br>
 | [Economy](https://github.com/ThePlay3r/Economy) `Spigot plugin for handling in-game Vault Economy.` <br>
 | [ChatController](https://github.com/ThePlay3r/ChatController) `Spigot plugin for handling in-game Chat.` <br>

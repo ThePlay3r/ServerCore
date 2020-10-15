@@ -17,6 +17,7 @@ public class ADelhomeCommand extends CommandUtil implements CommandExecutor {
         if (!checkPerm(sender, "servercore.adelhome.use")) return false;
 
         if (args.length == 2){
+            // /delhome <player> <home>
             OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
             if (!ServerCore.getPlayerManager().delHome(target, args[1])){
                 sendMessage(sender, CfgLang.lang.get(Lang.ADELHOME_FAILURE_NO_HOME).replace("%player", args[0]).replace("%name", args[1]));

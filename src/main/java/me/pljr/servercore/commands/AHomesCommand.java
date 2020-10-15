@@ -23,7 +23,7 @@ public class AHomesCommand extends CommandUtil implements CommandExecutor {
         if (!checkPerm(sender, "servercore.ahomes.use")) return false;
 
         if (args.length == 1){
-            // /homes <player>
+            // /ahomes <player>
             OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
             UUID targetId = target.getUniqueId();
             CorePlayer coreTarget = ServerCore.getPlayerManager().getCorePlayer(targetId);
