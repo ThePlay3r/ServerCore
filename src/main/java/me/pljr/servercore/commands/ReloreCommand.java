@@ -6,6 +6,7 @@ import me.pljr.servercore.config.CfgLang;
 import me.pljr.servercore.enums.Lang;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -31,22 +32,24 @@ public class ReloreCommand extends CommandUtil implements CommandExecutor {
             // /relore <line> <text>
             if (!checkInt(player, args[0])) return false;
             ItemStack itemStack = player.getItemInHand();
-            if (itemStack == null){
+            if (itemStack == null || itemStack.getType() == null || itemStack.getType() == Material.AIR){
                 sendMessage(player, CfgLang.lang.get(Lang.RELORE_USAGE));
                 return false;
             }
             int line = Integer.parseInt(args[0]);
+            if (line < 1) line = 1;
+            if (line > 64) line = 64;
             String text = FormatUtil.colorString(StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " "));
             ItemMeta itemMeta = itemStack.getItemMeta();
             List<String> itemLore = itemMeta.getLore();
             if (itemLore == null) itemLore = new ArrayList<>();
-            if (line > itemLore.size()){
+            if (line >= itemLore.size()){
                 int diff = line - itemLore.size();
                 for (int i = 0; i < diff; i++){
                     itemLore.add("");
                 }
             }
-            itemLore.set(line, text);
+            itemLore.set(line-1, text);
             itemMeta.setLore(itemLore);
             itemStack.setItemMeta(itemMeta);
             player.setItemInHand(itemStack);

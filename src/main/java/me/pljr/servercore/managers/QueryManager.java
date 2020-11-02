@@ -343,6 +343,13 @@ public class QueryManager {
                 locationsReplaceStatement.setDouble(5, lastLoc.getZ());
                 locationsReplaceStatement.setFloat(6, lastLoc.getYaw());
                 locationsReplaceStatement.setFloat(7, lastLoc.getPitch());
+            }else{
+                locationsReplaceStatement.setString(2, "");
+                locationsReplaceStatement.setDouble(3, 0);
+                locationsReplaceStatement.setDouble(4, 0);
+                locationsReplaceStatement.setDouble(5, 0);
+                locationsReplaceStatement.setFloat(6, 0);
+                locationsReplaceStatement.setFloat(7, 0);
             }
 
             if (deathLoc != null && deathLoc.getWorld() != null){
@@ -352,6 +359,13 @@ public class QueryManager {
                 locationsReplaceStatement.setDouble(11, deathLoc.getZ());
                 locationsReplaceStatement.setFloat(12, deathLoc.getYaw());
                 locationsReplaceStatement.setFloat(13, deathLoc.getPitch());
+            }else{
+                locationsReplaceStatement.setString(8, "");
+                locationsReplaceStatement.setDouble(9, 0);
+                locationsReplaceStatement.setDouble(10, 0);
+                locationsReplaceStatement.setDouble(11, 0);
+                locationsReplaceStatement.setFloat(12, 0);
+                locationsReplaceStatement.setFloat(13, 0);
             }
             locationsReplaceStatement.executeUpdate();
             dataSource.close(locationsReplaceConnection, locationsReplaceStatement, null);
