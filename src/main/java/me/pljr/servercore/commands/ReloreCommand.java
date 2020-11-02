@@ -28,7 +28,7 @@ public class ReloreCommand extends CommandUtil implements CommandExecutor {
         Player player = (Player) sender;
         if (!checkPerm(player, "servercore.relore.use")) return false;
 
-        if (args.length == 2){
+        if (args.length >= 2){
             // /relore <line> <text>
             if (!checkInt(player, args[0])) return false;
             ItemStack itemStack = player.getItemInHand();
