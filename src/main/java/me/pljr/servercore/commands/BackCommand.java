@@ -18,10 +18,10 @@ public class BackCommand extends CommandUtil implements CommandExecutor {
             return false;
         }
         Player player = (Player) sender;
-        if (!player.hasPermission("servercore.back.use")) return false;
+        if (!checkPerm(player, "servercore.back.use")) return false;
 
         // /back
-        BackMenu.open(player);
+        BackMenu.get(player).open(player);
 
         return true;
     }

@@ -13,9 +13,9 @@ import me.pljr.servercore.managers.PlayerManager;
 import me.pljr.servercore.managers.QueryManager;
 import me.pljr.servercore.managers.SpawnManager;
 import me.pljr.servercore.managers.WarpManager;
-import me.pljr.servercore.menus.BackMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -66,12 +66,18 @@ public final class ServerCore extends JavaPlugin {
         warpManager = new WarpManager();
         spawnManager = new SpawnManager();
         if (DatabaseFile.getDatabaseFile().isSet("spawnLocation")){
-            spawnManager.setLocation(new Location(
-                    Bukkit.getWorld(databaseFileManager.getString("spawnLocation.world")),
-                            databaseFileManager.getDouble("spawnLocation.x"),
-                            databaseFileManager.getDouble("spawnLocation.y"),
-                            databaseFileManager.getDouble("spawnLocation.z"))
-            );
+            World world = Bukkit.getWorld(databaseFileManager.getString("spawnLocation.world"));
+            if (world == null){
+                spawnManager.setLocation(null);
+            }else {
+                spawnManager.setLocation(new Location(
+                        Bukkit.getWorld(databaseFileManager.getString("spawnLocation.world")),
+                        databaseFileManager.getDouble("spawnLocation.x"),
+                        databaseFileManager.getDouble("spawnLocation.y"),
+                        databaseFileManager.getDouble("spawnLocation.z"),
+                        (float)databaseFileManager.getDouble("spawnLocation.yaw"),
+                        (float)databaseFileManager.getDouble("spawnLocation.pitch")));
+            }
         }
     }
 
@@ -90,8 +96,8 @@ public final class ServerCore extends JavaPlugin {
         pluginManager.registerEvents(new PlayerDeathListener(), this);
         pluginManager.registerEvents(new PlayerJoinListener(), this);
         pluginManager.registerEvents(new PlayerTeleportListener(), this);
-        pluginManager.registerEvents(new BackMenu(), this);
         pluginManager.registerEvents(new PlayerQuitListener(), this);
+        pluginManager.registerEvents(new PlayerRespawnListener(), this);
     }
 
     private void setupComands(){

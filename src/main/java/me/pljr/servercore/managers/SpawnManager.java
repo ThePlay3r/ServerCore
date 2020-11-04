@@ -26,6 +26,8 @@ public class SpawnManager {
         databaseFile.set("spawnLocation.x", location.getX());
         databaseFile.set("spawnLocation.y", location.getY());
         databaseFile.set("spawnLocation.z", location.getZ());
+        databaseFile.set("spawnLocation.pitch", location.getPitch());
+        databaseFile.set("spawnLocation.yaw", location.getYaw());
         DatabaseFile.saveDatabaseFile();
     }
 }

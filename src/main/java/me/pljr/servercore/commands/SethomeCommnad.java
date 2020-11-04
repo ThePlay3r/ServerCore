@@ -5,6 +5,7 @@ import me.pljr.servercore.ServerCore;
 import me.pljr.servercore.config.CfgLang;
 import me.pljr.servercore.enums.Lang;
 import me.pljr.servercore.objects.CorePlayer;
+import me.pljr.servercore.utils.HomeUtil;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -29,7 +30,8 @@ public class SethomeCommnad extends CommandUtil implements CommandExecutor {
 
         CorePlayer corePlayer = ServerCore.getPlayerManager().getCorePlayer(playerId);
         int currentHomes = corePlayer.getHomes().size();
-        boolean canMore = player.hasPermission("servercore.sethome.max." + currentHomes+1);
+        int maxHomes = HomeUtil.getMax(player);
+        boolean canMore = maxHomes < currentHomes;
 
         if (args.length == 1){
             // /sethome <home>

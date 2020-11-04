@@ -38,11 +38,11 @@ public class FlyCommand extends CommandUtil implements CommandExecutor {
             if (!checkPlayer(sender, args[0])) return false;
             Player target = Bukkit.getPlayer(args[0]);
             if (target.isFlying()){
-                target.setFlying(false);
+                target.setAllowFlight(false);
                 sendMessage(sender, CfgLang.lang.get(Lang.FLY_SUCCESS_OTHERS_OFF).replace("%player", target.getName()));
                 sendMessage(target, CfgLang.lang.get(Lang.FLY_SUCCESS_OTHERS_OFF_PLAYER).replace("%player", sender.getName()));
             }else{
-                target.setFlying(true);
+                target.setAllowFlight(true);
                 sendMessage(sender, CfgLang.lang.get(Lang.FLY_SUCCESS_OTHERS_ON).replace("%player", target.getName()));
                 sendMessage(target, CfgLang.lang.get(Lang.FLY_SUCCESS_OTHERS_ON_PLAYER).replace("%player", sender.getName()));
             }
