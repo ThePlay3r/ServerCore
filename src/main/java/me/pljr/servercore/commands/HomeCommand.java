@@ -33,11 +33,11 @@ public class HomeCommand extends CommandUtil implements CommandExecutor {
             // /home <name>
             Location homeLoc = corePlayer.getHome(args[0]);
             if (homeLoc == null){
-                sendMessage(player, CfgLang.lang.get(Lang.HOME_FAILURE_NO_HOME).replace("%home", args[0]));
+                sendMessage(player, CfgLang.lang.get(Lang.HOME_FAILURE_NO_HOME).replace("%name", args[0]));
                 return false;
             }
             PlayerUtil.teleport(player, homeLoc, true);
-            sendMessage(player, CfgLang.lang.get(Lang.HOME_SUCCESS).replace("%home", args[0]));
+            sendMessage(player, CfgLang.lang.get(Lang.HOME_SUCCESS).replace("%name", args[0]));
             return true;
         }
 

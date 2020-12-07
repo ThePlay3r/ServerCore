@@ -41,6 +41,14 @@ public class ServerCoreCommand extends CommandUtil implements CommandExecutor {
                 }
                 return true;
             }
+
+            // /servercore reload
+            if (args[0].equalsIgnoreCase("reload")){
+                if (!checkPerm(player, "servercore.servercore.use.reload")) return false;
+                ServerCore.getInstance().setupConfig();
+                player.sendMessage("§a§l✔");
+                return true;
+            }
         }
 
         sendMessage(player, CfgLang.lang.get(Lang.SERVERCORE_USAGE));

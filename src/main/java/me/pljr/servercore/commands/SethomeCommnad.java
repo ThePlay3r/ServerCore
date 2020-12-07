@@ -31,7 +31,7 @@ public class SethomeCommnad extends CommandUtil implements CommandExecutor {
         CorePlayer corePlayer = ServerCore.getPlayerManager().getCorePlayer(playerId);
         int currentHomes = corePlayer.getHomes().size();
         int maxHomes = HomeUtil.getMax(player);
-        boolean canMore = maxHomes < currentHomes;
+        boolean canMore = maxHomes > currentHomes;
 
         if (args.length == 1){
             // /sethome <home>

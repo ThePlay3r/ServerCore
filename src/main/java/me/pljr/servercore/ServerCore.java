@@ -7,6 +7,7 @@ import me.pljr.servercore.commands.*;
 import me.pljr.servercore.config.CfgBackMenu;
 import me.pljr.servercore.config.CfgLang;
 import me.pljr.servercore.config.CfgSettings;
+import me.pljr.servercore.config.CfgWarpMenu;
 import me.pljr.servercore.files.DatabaseFile;
 import me.pljr.servercore.listeners.*;
 import me.pljr.servercore.managers.PlayerManager;
@@ -21,6 +22,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class ServerCore extends JavaPlugin {
+    private static ServerCore instance;
     private static ConfigManager configManager;
     private static ConfigManager databaseFileManager;
     private static PlayerManager playerManager;
@@ -32,6 +34,7 @@ public final class ServerCore extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         if (!setupPLJRApi()) return;
+        instance = this;
         setupConfig();
         setupManagers();
         setupDatabase();
@@ -51,11 +54,13 @@ public final class ServerCore extends JavaPlugin {
         }
     }
 
-    private void setupConfig(){
+    public void setupConfig(){
         saveDefaultConfig();
+        reloadConfig();
         configManager = new ConfigManager(getConfig(), "§cServerCore:", "config.yml");
         CfgSettings.load(configManager);
         CfgBackMenu.load(configManager);
+        CfgWarpMenu.load(configManager);
         CfgLang.load(configManager);
         DatabaseFile.setupDatabaseFile(this);
         databaseFileManager = new ConfigManager(DatabaseFile.getDatabaseFile(), "§cServerCore:", "database.yml");
@@ -98,6 +103,7 @@ public final class ServerCore extends JavaPlugin {
         pluginManager.registerEvents(new PlayerTeleportListener(), this);
         pluginManager.registerEvents(new PlayerQuitListener(), this);
         pluginManager.registerEvents(new PlayerRespawnListener(), this);
+        pluginManager.registerEvents(new PlayerCommandPreprocessListener(), this);
     }
 
     private void setupComands(){
@@ -145,6 +151,9 @@ public final class ServerCore extends JavaPlugin {
         getCommand("servercore").setExecutor(new ServerCoreCommand());
     }
 
+    public static ServerCore getInstance() {
+        return instance;
+    }
     public static PlayerManager getPlayerManager() {
         return playerManager;
     }

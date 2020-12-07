@@ -31,6 +31,7 @@ settings:
   tphere-delay: false #-> Should we delay the teleport of player when using /tphere <player> ?
   aspawn-delay: false #-> Should we delay the teleport of player when using /aspawn <player> ?
   always-spawn-on-spawn: false #-> Should we teleport players to spawn on every connection?
+  warp-gui: true #-> Should we use the GUI for warp list? (false = Warps in chat)
   default-world: "world" #-> What is the default world to use when using commands from console?
   day-time: 1000 #-> What should be the time, when using the /day command? (in ticks)
   night-time: 13000 #-> What should be the time, when using the /night command? (in ticks)
@@ -55,6 +56,18 @@ back-menu:
     name: "§cDeath location"
     lore:
       - "§fClick to teleport to your death location."
+
+warp-menu:
+  title: "§aServerCore §8> §bWarps"
+  background:
+    type: "BLACK_STAINED_GLASS_PANE"
+    name: "§0"
+  warp-item:
+    type: "PAPER"
+    name: "§e%warp"
+    lore:
+      - "§fClick to be teleported to"
+      - "§e%warp§f."
 #|--------------------------------------------------------------------------------------------------------------------|#
 
 ##############\

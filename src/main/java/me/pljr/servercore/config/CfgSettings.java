@@ -8,6 +8,7 @@ public class CfgSettings {
     public static boolean tpHereDelay;
     public static boolean aspawnDelay;
     public static boolean alwaysSpawnOnSpawn;
+    public static boolean warpGui;
     public static String defaultWorld;
     public static int dayTime;
     public static int nightTime;
@@ -18,6 +19,7 @@ public class CfgSettings {
         tpHereDelay = config.getBoolean("settings.tphere-delay");
         aspawnDelay = config.getBoolean("settings.aspawn-delay");
         alwaysSpawnOnSpawn = config.getBoolean("settings.always-spawn-on-spawn");
+        warpGui = config.getBoolean("settings.warp-gui");
         defaultWorld = config.getString("settings.default-world");
         dayTime = config.getInt("settings.day-time");
         nightTime = config.getInt("settings.night-time");
