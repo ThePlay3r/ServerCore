@@ -1,7 +1,10 @@
-package me.pljr.servercore.enums;
+package me.pljr.servercore.config;
+
+import me.pljr.pljrapispigot.managers.ConfigManager;
+
+import java.util.HashMap;
 
 public enum Lang {
-    NO_CONSOLE,
     CI_USAGE,
     CI_SUCCESS,
     CI_SUCCESS_OTHERS,
@@ -110,5 +113,20 @@ public enum Lang {
     SETSPAWN_SUCCESS,
     SERVERCORE_USAGE,
     SERVERCORE_SPY_SUCCESS_ON,
-    SERVERCORE_SPY_SUCCESS_OFF
+    SERVERCORE_SPY_SUCCESS_OFF,
+    AWARP_SUCCESS,
+    AWARP_SUCCESS_PLAYER,
+    AWARP_USAGE;
+
+    public static HashMap<Lang, String> lang;
+
+    public static void load(ConfigManager config){
+        for (Lang lang : values()){
+            Lang.lang.put(lang, config.getString("lang."+lang));
+        }
+    }
+
+    public String get(){
+        return lang.get(this);
+    }
 }

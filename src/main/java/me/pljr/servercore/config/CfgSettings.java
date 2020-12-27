@@ -1,27 +1,27 @@
 package me.pljr.servercore.config;
 
-import me.pljr.pljrapi.managers.ConfigManager;
+import me.pljr.pljrapispigot.managers.ConfigManager;
 
 public class CfgSettings {
-    public static boolean tpDelay;
-    public static boolean tpOthersDelay;
-    public static boolean tpHereDelay;
-    public static boolean aspawnDelay;
-    public static boolean alwaysSpawnOnSpawn;
-    public static boolean warpGui;
-    public static String defaultWorld;
-    public static int dayTime;
-    public static int nightTime;
+    public static boolean TP_DELAY;
+    public static boolean TP_OTHER_DELAY;
+    public static boolean TPHERE_DELAY;
+    public static boolean ASPAWN_DELAY;
+    public static boolean ALWAYS_SPAWN_ON_SPAWN;
+    public static boolean WARP_GUI;
+    public static String DEFAULT_WORLD;
+    public static int DAY_TIME;
+    public static int NIGHT_TIME;
 
     public static void load(ConfigManager config){
-        tpDelay = config.getBoolean("settings.tp-delay");
-        tpOthersDelay = config.getBoolean("settings.tp-others-delay");
-        tpHereDelay = config.getBoolean("settings.tphere-delay");
-        aspawnDelay = config.getBoolean("settings.aspawn-delay");
-        alwaysSpawnOnSpawn = config.getBoolean("settings.always-spawn-on-spawn");
-        warpGui = config.getBoolean("settings.warp-gui");
-        defaultWorld = config.getString("settings.default-world");
-        dayTime = config.getInt("settings.day-time");
-        nightTime = config.getInt("settings.night-time");
+        TP_DELAY = config.getBoolean("settings.tp-delay");
+        TP_OTHER_DELAY = config.getBoolean("settings.tp-others-delay");
+        TPHERE_DELAY = config.getBoolean("settings.tphere-delay");
+        ASPAWN_DELAY = config.getBoolean("settings.aspawn-delay");
+        ALWAYS_SPAWN_ON_SPAWN = config.getBoolean("settings.always-spawn-on-spawn");
+        WARP_GUI = config.getBoolean("settings.warp-gui");
+        DEFAULT_WORLD = config.getString("settings.default-world");
+        DAY_TIME = config.getInt("settings.day-time");
+        NIGHT_TIME = config.getInt("settings.night-time");
     }
 }

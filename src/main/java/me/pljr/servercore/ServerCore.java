@@ -1,14 +1,12 @@
 package me.pljr.servercore;
 
-import me.pljr.pljrapi.PLJRApi;
-import me.pljr.pljrapi.database.DataSource;
-import me.pljr.pljrapi.managers.ConfigManager;
+import me.pljr.pljrapispigot.database.DataSource;
+import me.pljr.pljrapispigot.managers.ConfigManager;
 import me.pljr.servercore.commands.*;
 import me.pljr.servercore.config.CfgBackMenu;
-import me.pljr.servercore.config.CfgLang;
 import me.pljr.servercore.config.CfgSettings;
 import me.pljr.servercore.config.CfgWarpMenu;
-import me.pljr.servercore.files.DatabaseFile;
+import me.pljr.servercore.config.Lang;
 import me.pljr.servercore.listeners.*;
 import me.pljr.servercore.managers.PlayerManager;
 import me.pljr.servercore.managers.QueryManager;
@@ -33,7 +31,6 @@ public final class ServerCore extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
-        if (!setupPLJRApi()) return;
         instance = this;
         setupConfig();
         setupManagers();
@@ -42,35 +39,22 @@ public final class ServerCore extends JavaPlugin {
         setupComands();
     }
 
-    private boolean setupPLJRApi(){
-        PLJRApi api = (PLJRApi) Bukkit.getServer().getPluginManager().getPlugin("PLJRApi");
-        if (api == null){
-            Bukkit.getConsoleSender().sendMessage("§cServerCore: PLJRApi not found, disabling plugin!");
-            getServer().getPluginManager().disablePlugin(this);
-            return false;
-        }else{
-            Bukkit.getConsoleSender().sendMessage("§aServerCore: Hooked into PLJRApi!");
-            return true;
-        }
-    }
-
     public void setupConfig(){
         saveDefaultConfig();
         reloadConfig();
-        configManager = new ConfigManager(getConfig(), "§cServerCore:", "config.yml");
+        configManager = new ConfigManager(this, "config.yml");
         CfgSettings.load(configManager);
         CfgBackMenu.load(configManager);
         CfgWarpMenu.load(configManager);
-        CfgLang.load(configManager);
-        DatabaseFile.setupDatabaseFile(this);
-        databaseFileManager = new ConfigManager(DatabaseFile.getDatabaseFile(), "§cServerCore:", "database.yml");
+        Lang.load(configManager);
+        databaseFileManager = new ConfigManager(this, "database.yml");
     }
 
     private void setupManagers(){
         playerManager = new PlayerManager();
         warpManager = new WarpManager();
         spawnManager = new SpawnManager();
-        if (DatabaseFile.getDatabaseFile().isSet("spawnLocation")){
+        if (databaseFileManager.getConfig().isSet("spawnLocation")){
             World world = Bukkit.getWorld(databaseFileManager.getString("spawnLocation.world"));
             if (world == null){
                 spawnManager.setLocation(null);
@@ -130,7 +114,7 @@ public final class ServerCore extends JavaPlugin {
         getCommand("rain").setExecutor(new RainCommand());
         getCommand("relore").setExecutor(new ReloreCommand());
         getCommand("rename").setExecutor(new RenameCommand());
-        getCommand("sethome").setExecutor(new SethomeCommnad());
+        getCommand("sethome").setExecutor(new SethomeCommand());
         getCommand("setwarp").setExecutor(new SetwarpCommand());
         getCommand("skull").setExecutor(new SkullCommand());
         getCommand("sun").setExecutor(new SunCommand());
@@ -149,6 +133,7 @@ public final class ServerCore extends JavaPlugin {
         getCommand("aspawn").setExecutor(new ASpawnCommand());
         getCommand("setspawn").setExecutor(new SetspawnCommand());
         getCommand("servercore").setExecutor(new ServerCoreCommand());
+        getCommand("awarp").setExecutor(new AWarpCommand());
     }
 
     public static ServerCore getInstance() {
@@ -165,6 +150,9 @@ public final class ServerCore extends JavaPlugin {
     }
     public static SpawnManager getSpawnManager() {
         return spawnManager;
+    }
+    public static ConfigManager getDatabaseFileManager() {
+        return databaseFileManager;
     }
 
     @Override

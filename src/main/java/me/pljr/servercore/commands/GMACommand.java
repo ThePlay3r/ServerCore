@@ -1,32 +1,45 @@
 package me.pljr.servercore.commands;
 
-import me.pljr.pljrapi.utils.CommandUtil;
-import me.pljr.servercore.config.CfgLang;
-import me.pljr.servercore.enums.Lang;
+import me.pljr.pljrapispigot.utils.CommandUtil;
+import me.pljr.servercore.config.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Player;
 
-public class GMACommand extends CommandUtil implements CommandExecutor {
+public class GMACommand extends CommandUtil {
+
+    public GMACommand(){
+        super("gma", "servercore.gamemode.use.adventure");
+    }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!checkPerm(sender, "servercore.gamemode.use.adventure")) return false;
-
+    public void onPlayerCommand(Player player, String[] args){
         if (args.length == 0){
             // /gma
-            Bukkit.dispatchCommand(sender, "gamemode adventure");
-            return true;
+            Bukkit.dispatchCommand(player, "gamemode adventure");
+            return;
         }
 
         if (args.length == 1){
             // /gma <player>
-            Bukkit.dispatchCommand(sender, "gamemode adventure " + args[0]);
-            return true;
+            Bukkit.dispatchCommand(player, "gamemode adventure " + args[0]);
+            return;
         }
 
-        sendMessage(sender, CfgLang.lang.get(Lang.GAMEMODE_GMA_USAGE));
-        return false;
+        sendMessage(player, Lang.GAMEMODE_GMA_USAGE.get());
+    }
+
+    @Override
+    public void onConsoleCommand(ConsoleCommandSender sender, String[] args){
+        if (args.length == 1){
+            // /gma <player>
+            Bukkit.dispatchCommand(sender, "gamemode adventure " + args[0]);
+            return;
+        }
+
+        sendMessage(sender, Lang.GAMEMODE_GMA_USAGE.get());
     }
 }

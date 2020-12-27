@@ -1,8 +1,7 @@
 package me.pljr.servercore.commands;
 
-import me.pljr.pljrapi.utils.CommandUtil;
-import me.pljr.servercore.config.CfgLang;
-import me.pljr.servercore.enums.Lang;
+import me.pljr.pljrapispigot.utils.CommandUtil;
+import me.pljr.servercore.config.Lang;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -12,17 +11,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class TopBlockCommand extends CommandUtil implements CommandExecutor {
+public class TopBlockCommand extends CommandUtil {
+
+    public TopBlockCommand(){
+        super("topblock", "Servercore.topblock.use");
+    }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)){
-            sendMessage(sender, CfgLang.lang.get(Lang.NO_CONSOLE));
-            return false;
-        }
-        Player player = (Player) sender;
-        if (!checkPerm(player, "servercore.topblock.use")) return false;
-
+    public void onPlayerCommand(Player player, String[] args){
         Location playerLoc = player.getLocation();
         double x = playerLoc.getX();
         double y = playerLoc.getY();
@@ -37,8 +33,6 @@ public class TopBlockCommand extends CommandUtil implements CommandExecutor {
             player.teleport(loc.add(0, 1, 0));
             break;
         }
-        sendMessage(player, CfgLang.lang.get(Lang.TOPBLOCK_SUCCESS));
-
-        return true;
+        sendMessage(player, Lang.TOPBLOCK_SUCCESS.get());
     }
 }

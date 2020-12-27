@@ -1,43 +1,44 @@
 package me.pljr.servercore.commands;
 
-import me.pljr.pljrapi.utils.CommandUtil;
-import me.pljr.pljrapi.utils.ItemStackUtil;
-import me.pljr.pljrapi.utils.PlayerUtil;
-import me.pljr.servercore.config.CfgLang;
-import me.pljr.servercore.enums.Lang;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
+import me.pljr.pljrapispigot.builders.ItemBuilder;
+import me.pljr.pljrapispigot.utils.CommandUtil;
+import me.pljr.pljrapispigot.utils.PlayerUtil;
+import me.pljr.pljrapispigot.xseries.XMaterial;
+import me.pljr.servercore.config.Lang;
 import org.bukkit.entity.Player;
 
-public class SkullCommand extends CommandUtil implements CommandExecutor {
+public class SkullCommand extends CommandUtil {
+
+    public SkullCommand(){
+        super("skull", "servercore.skull.use");
+    }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)){
-            sendMessage(sender, CfgLang.lang.get(Lang.NO_CONSOLE));
-            return false;
-        }
-        Player player = (Player) sender;
-        if (!checkPerm(player, "servercore.skull.use")) return false;
-
+    public void onPlayerCommand(Player player, String[] args){
         String playerName = player.getName();
 
         if (args.length == 0){
             // /skull
-            PlayerUtil.give(player, ItemStackUtil.createHead(playerName, "§e" + playerName, 1));
-            sendMessage(player, CfgLang.lang.get(Lang.SKULL_SUCCESS).replace("%name", playerName));
-            return true;
+            PlayerUtil.give(player,
+                    new ItemBuilder(XMaterial.PLAYER_HEAD)
+                            .withName(playerName)
+                            .withOwner(playerName)
+                            .create());
+            sendMessage(player, Lang.SKULL_SUCCESS.get().replace("{name}", playerName));
+            return;
         }
 
         if (args.length == 1){
             // /skull <name>
-            PlayerUtil.give(player, ItemStackUtil.createHead(args[0], "§e" + args[0], 1));
-            sendMessage(player, CfgLang.lang.get(Lang.SKULL_SUCCESS).replace("%name", args[0]));
-            return true;
+            PlayerUtil.give(player,
+                    new ItemBuilder(XMaterial.PLAYER_HEAD)
+                            .withName(args[0])
+                            .withOwner(args[0])
+                            .create());
+            sendMessage(player, Lang.SKULL_SUCCESS.get().replace("{name}", args[0]));
+            return;
         }
 
-        sendMessage(player, CfgLang.lang.get(Lang.SKULL_USAGE));
-        return false;
+        sendMessage(player, Lang.SKULL_USAGE.get());
     }
 }

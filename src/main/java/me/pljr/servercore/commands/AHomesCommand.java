@@ -1,42 +1,60 @@
 package me.pljr.servercore.commands;
 
-import me.pljr.pljrapi.utils.CommandUtil;
+import me.pljr.pljrapispigot.utils.CommandUtil;
 import me.pljr.servercore.ServerCore;
-import me.pljr.servercore.config.CfgLang;
-import me.pljr.servercore.enums.Lang;
+import me.pljr.servercore.config.Lang;
 import me.pljr.servercore.objects.CorePlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class AHomesCommand extends CommandUtil implements CommandExecutor {
+public class AHomesCommand extends CommandUtil {
+
+    public AHomesCommand(){
+        super("ahomes", "servercore.ahomes.use");
+    }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!checkPerm(sender, "servercore.ahomes.use")) return false;
-
+    public void onPlayerCommand(Player player, String[] args){
         if (args.length == 1){
             // /ahomes <player>
             OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
             UUID targetId = target.getUniqueId();
             CorePlayer coreTarget = ServerCore.getPlayerManager().getCorePlayer(targetId);
             HashMap<String, Location> targetHomes = coreTarget.getHomes();
-            sendMessage(sender, CfgLang.lang.get(Lang.AHOMES_SUCCESS_TITLE).replace("%player", args[0]));
+            sendMessage(player, Lang.AHOMES_SUCCESS_TITLE.get().replace("{player}", args[0]));
             for (Map.Entry<String, Location> home : targetHomes.entrySet()){
                 String homeName = home.getKey();
-                sendMessage(sender, CfgLang.lang.get(Lang.AHOMES_SUCCESS_FORMAT).replace("%name", homeName).replace("%player", args[0]));
+                sendMessage(player, Lang.AHOMES_SUCCESS_FORMAT.get().replace("{name}", homeName).replace("{player}", args[0]));
             }
-            return true;
+            return;
         }
 
-        sendMessage(sender, CfgLang.lang.get(Lang.AHOMES_USAGE));
-        return false;
+        sendMessage(player, Lang.AHOMES_USAGE.get());
+    }
+
+    @Override
+    public void onConsoleCommand(ConsoleCommandSender sender, String[] args){
+        if (args.length == 1){
+            // /ahomes <player>
+            OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
+            UUID targetId = target.getUniqueId();
+            CorePlayer coreTarget = ServerCore.getPlayerManager().getCorePlayer(targetId);
+            HashMap<String, Location> targetHomes = coreTarget.getHomes();
+            sendMessage(sender, Lang.AHOMES_SUCCESS_TITLE.get().replace("{player}", args[0]));
+            for (Map.Entry<String, Location> home : targetHomes.entrySet()){
+                String homeName = home.getKey();
+                sendMessage(sender, Lang.AHOMES_SUCCESS_FORMAT.get().replace("{name}", homeName).replace("{player}", args[0]));
+            }
+            return;
+        }
+
+        sendMessage(sender, Lang.AHOMES_USAGE.get());
     }
 }

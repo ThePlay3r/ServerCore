@@ -1,9 +1,8 @@
 package me.pljr.servercore.commands;
 
-import me.pljr.pljrapi.utils.CommandUtil;
-import me.pljr.pljrapi.utils.FormatUtil;
-import me.pljr.servercore.config.CfgLang;
-import me.pljr.servercore.enums.Lang;
+import me.pljr.pljrapispigot.utils.CommandUtil;
+import me.pljr.pljrapispigot.utils.FormatUtil;
+import me.pljr.servercore.config.Lang;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
@@ -17,24 +16,21 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReloreCommand extends CommandUtil implements CommandExecutor {
+public class ReloreCommand extends CommandUtil {
+
+    public ReloreCommand(){
+        super("relore", "servercore.relore.use");
+    }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)){
-            sendMessage(sender, CfgLang.lang.get(Lang.NO_CONSOLE));
-            return false;
-        }
-        Player player = (Player) sender;
-        if (!checkPerm(player, "servercore.relore.use")) return false;
-
+    public void onPlayerCommand(Player player, String[] args){
         if (args.length >= 2){
             // /relore <line> <text>
-            if (!checkInt(player, args[0])) return false;
+            if (!checkInt(player, args[0])) return;
             ItemStack itemStack = player.getItemInHand();
             if (itemStack == null || itemStack.getType() == null || itemStack.getType() == Material.AIR){
-                sendMessage(player, CfgLang.lang.get(Lang.RELORE_USAGE));
-                return false;
+                sendMessage(player, Lang.RELORE_USAGE.get());
+                return;
             }
             int line = Integer.parseInt(args[0]);
             if (line < 1) line = 1;
@@ -54,11 +50,10 @@ public class ReloreCommand extends CommandUtil implements CommandExecutor {
             itemStack.setItemMeta(itemMeta);
             player.setItemInHand(itemStack);
             player.updateInventory();
-            sendMessage(player, CfgLang.lang.get(Lang.RELORE_SUCCESS).replace("%line", args[0]).replace("%text", text));
-            return true;
+            sendMessage(player, Lang.RELORE_SUCCESS.get().replace("{line}", args[0]).replace("{text}", text));
+            return;
         }
 
-        sendMessage(player, CfgLang.lang.get(Lang.RELORE_USAGE));
-        return false;
+        sendMessage(player, Lang.RELORE_USAGE.get());
     }
 }

@@ -1,6 +1,6 @@
 package me.pljr.servercore.managers;
 
-import me.pljr.pljrapi.database.DataSource;
+import me.pljr.pljrapispigot.database.DataSource;
 import me.pljr.servercore.ServerCore;
 import me.pljr.servercore.objects.CorePlayer;
 import org.bukkit.Bukkit;

@@ -1,9 +1,8 @@
 package me.pljr.servercore.commands;
 
-import me.pljr.pljrapi.utils.CommandUtil;
+import me.pljr.pljrapispigot.utils.CommandUtil;
 import me.pljr.servercore.ServerCore;
-import me.pljr.servercore.config.CfgLang;
-import me.pljr.servercore.enums.Lang;
+import me.pljr.servercore.config.Lang;
 import me.pljr.servercore.objects.CorePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,15 +13,12 @@ import java.util.UUID;
 
 public class ServerCoreCommand extends CommandUtil implements CommandExecutor {
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)){
-            sendMessage(sender, CfgLang.lang.get(Lang.NO_CONSOLE));
-            return false;
-        }
-        Player player = (Player) sender;
-        if (!checkPerm(player, "servercore.servercore.use")) return false;
+    public ServerCoreCommand(){
+        super("servercore", "servercore.servercore.use");
+    }
 
+    @Override
+    public void onPlayerCommand(Player player, String[] args){
         UUID playerId = player.getUniqueId();
 
         CorePlayer corePlayer = ServerCore.getPlayerManager().getCorePlayer(playerId);
@@ -30,28 +26,28 @@ public class ServerCoreCommand extends CommandUtil implements CommandExecutor {
         if (args.length == 1){
             // /servercore spy
             if (args[0].equalsIgnoreCase("spy")){
-                if (!checkPerm(player, "servercore.servercore.use.spy")) return false;
+                if (!checkPerm(player, "servercore.servercore.use.spy")) return;
                 boolean isSpy = corePlayer.isSpy();
                 if (isSpy){
                     corePlayer.setSpy(false);
-                    sendMessage(player, CfgLang.lang.get(Lang.SERVERCORE_SPY_SUCCESS_OFF));
+                    sendMessage(player, Lang.SERVERCORE_SPY_SUCCESS_OFF.get());
                 }else{
                     corePlayer.setSpy(true);
-                    sendMessage(player, CfgLang.lang.get(Lang.SERVERCORE_SPY_SUCCESS_ON));
+                    sendMessage(player, Lang.SERVERCORE_SPY_SUCCESS_ON.get());
                 }
-                return true;
+                return;
             }
 
             // /servercore reload
             if (args[0].equalsIgnoreCase("reload")){
-                if (!checkPerm(player, "servercore.servercore.use.reload")) return false;
+                if (!checkPerm(player, "servercore.servercore.use.reload")) return;
                 ServerCore.getInstance().setupConfig();
-                player.sendMessage("§a§l✔");
-                return true;
+                player.sendMessage("§a§l✔ Reloaded");
+                return;
             }
         }
 
-        sendMessage(player, CfgLang.lang.get(Lang.SERVERCORE_USAGE));
-        return false;
+        sendMessage(player, Lang.SERVERCORE_USAGE.get());
+
     }
 }

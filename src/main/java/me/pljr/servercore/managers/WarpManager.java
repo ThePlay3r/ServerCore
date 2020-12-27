@@ -30,6 +30,14 @@ public class WarpManager {
         return list;
     }
 
+    public boolean isWarp(String warpName){
+        return this.warps.containsKey(warpName);
+    }
+
+    public Location getWarp(String warpName){
+        return this.warps.get(warpName);
+    }
+
     public void setWarps(HashMap<String, Location> warps) {
         this.warps = warps;
     }

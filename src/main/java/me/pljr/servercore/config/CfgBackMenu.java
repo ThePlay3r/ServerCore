@@ -1,18 +1,18 @@
 package me.pljr.servercore.config;
 
-import me.pljr.pljrapi.managers.ConfigManager;
+import me.pljr.pljrapispigot.managers.ConfigManager;
 import org.bukkit.inventory.ItemStack;
 
 public class CfgBackMenu {
-    public static String title;
-    public static ItemStack background;
-    public static ItemStack lastLocation;
-    public static ItemStack deathLocation;
+    public static String TITLE;
+    public static ItemStack BACKGROUND;
+    public static ItemStack LAST_LOCATION;
+    public static ItemStack DEATH_LOCATION;
 
     public static void load(ConfigManager config){
-        title = config.getString("back-menu.title");
-        background = config.getSimpleItemStack("back-menu.background");
-        lastLocation = config.getSimpleItemStack("back-menu.last-location");
-        deathLocation = config.getSimpleItemStack("back-menu.death-location");
+        TITLE = config.getString("back-menu.title");
+        BACKGROUND = config.getSimpleItemStack("back-menu.background");
+        LAST_LOCATION = config.getSimpleItemStack("back-menu.last-location");
+        DEATH_LOCATION = config.getSimpleItemStack("back-menu.death-location");
     }
 }

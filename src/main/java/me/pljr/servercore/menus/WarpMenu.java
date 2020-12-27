@@ -1,10 +1,10 @@
 package me.pljr.servercore.menus;
 
-import me.pljr.pljrapi.builders.GUIBuilder;
-import me.pljr.pljrapi.builders.ItemBuilder;
-import me.pljr.pljrapi.managers.GUIManager;
-import me.pljr.pljrapi.objects.GUI;
-import me.pljr.pljrapi.objects.GUIItem;
+import me.pljr.pljrapispigot.builders.GUIBuilder;
+import me.pljr.pljrapispigot.builders.ItemBuilder;
+import me.pljr.pljrapispigot.managers.GUIManager;
+import me.pljr.pljrapispigot.objects.GUI;
+import me.pljr.pljrapispigot.objects.GUIItem;
 import me.pljr.servercore.ServerCore;
 import me.pljr.servercore.config.CfgWarpMenu;
 import me.pljr.servercore.managers.WarpManager;
@@ -17,10 +17,10 @@ import java.util.List;
 public class WarpMenu {
 
     public static GUI get(Player player){
-        GUIBuilder builder = new GUIBuilder(CfgWarpMenu.title, 6);
+        GUIBuilder builder = new GUIBuilder(CfgWarpMenu.TITLE, 6);
 
         for (int i = 0; i < 6*9; i++){
-            builder.setItem(i, CfgWarpMenu.background);
+            builder.setItem(i, CfgWarpMenu.BACKGROUND);
         }
 
         WarpManager warpManager = ServerCore.getWarpManager();
@@ -30,18 +30,16 @@ public class WarpMenu {
         for (String warp : warps){
             if (!player.hasPermission("servercore.warp.use." + warp)) continue;
 
-            ItemBuilder item = new ItemBuilder(CfgWarpMenu.warpItem);
-            String itemName = item.getName().replace("%warp", warp);
+            ItemBuilder item = new ItemBuilder(CfgWarpMenu.WARP_ITEM);
+            String itemName = item.getName().replace("{warp}", warp);
             item.withName(itemName);
-            item.replaceLore("%warp", warp);
+            item.replaceLore("{warp}", warp);
 
-            builder.setItem(warpSlot, new GUIItem(item.create(), new GUIManager.ClickRunnable() {
-                @Override
-                public void run(InventoryClickEvent inventoryClickEvent) {
-                    player.closeInventory();
-                    Bukkit.dispatchCommand(player, "warp " + warp);
-                }
-            }));
+            builder.setItem(warpSlot, new GUIItem(item.create(),
+                    run -> {
+                        player.closeInventory();
+                        Bukkit.dispatchCommand(player, "warp " + warp);
+                    }));
 
             warpSlot++;
         }

@@ -1,16 +1,16 @@
 package me.pljr.servercore.config;
 
-import me.pljr.pljrapi.managers.ConfigManager;
+import me.pljr.pljrapispigot.managers.ConfigManager;
 import org.bukkit.inventory.ItemStack;
 
 public class CfgWarpMenu {
-    public static String title;
-    public static ItemStack background;
-    public static ItemStack warpItem;
+    public static String TITLE;
+    public static ItemStack BACKGROUND;
+    public static ItemStack WARP_ITEM;
 
     public static void load(ConfigManager config){
-        title = config.getString("warp-menu.title");
-        background = config.getSimpleItemStack("warp-menu.background");
-        warpItem = config.getSimpleItemStack("warp-menu.warp-item");
+        TITLE = config.getString("warp-menu.title");
+        BACKGROUND = config.getSimpleItemStack("warp-menu.background");
+        WARP_ITEM = config.getSimpleItemStack("warp-menu.warp-item");
     }
 }

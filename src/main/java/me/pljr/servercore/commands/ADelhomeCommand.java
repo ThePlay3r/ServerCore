@@ -1,34 +1,50 @@
 package me.pljr.servercore.commands;
 
-import me.pljr.pljrapi.utils.CommandUtil;
+import me.pljr.pljrapispigot.utils.CommandUtil;
 import me.pljr.servercore.ServerCore;
-import me.pljr.servercore.config.CfgLang;
-import me.pljr.servercore.enums.Lang;
+import me.pljr.servercore.config.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Player;
 
-public class ADelhomeCommand extends CommandUtil implements CommandExecutor {
+public class ADelhomeCommand extends CommandUtil {
+
+    public ADelhomeCommand(){
+        super("delhome", "servercore.adelhome.use");
+    }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!checkPerm(sender, "servercore.adelhome.use")) return false;
-
+    public void onPlayerCommand(Player player, String[] args){
         if (args.length == 2){
             // /delhome <player> <home>
             OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
             if (!ServerCore.getPlayerManager().delHome(target, args[1])){
-                sendMessage(sender, CfgLang.lang.get(Lang.ADELHOME_FAILURE_NO_HOME).replace("%player", args[0]).replace("%name", args[1]));
-                return false;
+                sendMessage(player, Lang.ADELHOME_FAILURE_NO_HOME.get().replace("{player}", args[0]).replace("{name}", args[1]));
+                return;
             }
-            sendMessage(sender, CfgLang.lang.get(Lang.ADELHOME_SUCCESS).replace("%player", args[0]).replace("%name", args[1]));
-            sendMessage(target, CfgLang.lang.get(Lang.ADELHOME_SUCCESS_PLAYER).replace("%player", sender.getName()).replace("%name", args[1]));
-            return true;
+            sendMessage(player, Lang.ADELHOME_SUCCESS.get().replace("{player}", args[0]).replace("{name}", args[1]));
+            sendMessage(target, Lang.ADELHOME_SUCCESS_PLAYER.get().replace("{player}", player.getName()).replace("{name}", args[1]));
+            return;
         }
 
-        sendMessage(sender, CfgLang.lang.get(Lang.ADELHOME_USAGE));
-        return false;
+        sendMessage(player, Lang.ADELHOME_USAGE.get());
+    }
+
+    @Override
+    public void onConsoleCommand(ConsoleCommandSender sender, String[] args){
+        if (args.length == 2){
+            // /delhome <player> <home>
+            OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
+            if (!ServerCore.getPlayerManager().delHome(target, args[1])){
+                sendMessage(sender, Lang.ADELHOME_FAILURE_NO_HOME.get().replace("{player}", args[0]).replace("{name}", args[1]));
+                return;
+            }
+            sendMessage(sender, Lang.ADELHOME_SUCCESS.get().replace("{player}", args[0]).replace("{name}", args[1]));
+            sendMessage(target, Lang.ADELHOME_SUCCESS_PLAYER.get().replace("{player}", sender.getName()).replace("{name}", args[1]));
+            return;
+        }
+
+        sendMessage(sender, Lang.ADELHOME_USAGE.get());
     }
 }

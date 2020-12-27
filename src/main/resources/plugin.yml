@@ -90,3 +90,5 @@ commands:
     description: Command for setting spawn location.
   servercore:
     description: Main command for ServerCore plugin.
+  awarp:
+    description: Admin command for teleporting to warps.

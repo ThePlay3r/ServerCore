@@ -1,6 +1,7 @@
 package me.pljr.servercore.managers;
 
-import me.pljr.servercore.files.DatabaseFile;
+import me.pljr.pljrapispigot.managers.ConfigManager;
+import me.pljr.servercore.ServerCore;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -21,13 +22,14 @@ public class SpawnManager {
 
     public void saveToFile(){
         if (location == null) return;
-        FileConfiguration databaseFile = DatabaseFile.getDatabaseFile();
-        databaseFile.set("spawnLocation.world", location.getWorld().getName());
-        databaseFile.set("spawnLocation.x", location.getX());
-        databaseFile.set("spawnLocation.y", location.getY());
-        databaseFile.set("spawnLocation.z", location.getZ());
-        databaseFile.set("spawnLocation.pitch", location.getPitch());
-        databaseFile.set("spawnLocation.yaw", location.getYaw());
-        DatabaseFile.saveDatabaseFile();
+        ConfigManager database = ServerCore.getDatabaseFileManager();
+        FileConfiguration configuration = database.getConfig();
+        configuration.set("spawnLocation.world", location.getWorld().getName());
+        configuration.set("spawnLocation.x", location.getX());
+        configuration.set("spawnLocation.y", location.getY());
+        configuration.set("spawnLocation.z", location.getZ());
+        configuration.set("spawnLocation.pitch", location.getPitch());
+        configuration.set("spawnLocation.yaw", location.getYaw());
+        database.save();
     }
 }

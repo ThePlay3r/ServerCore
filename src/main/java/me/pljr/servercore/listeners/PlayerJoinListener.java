@@ -1,6 +1,6 @@
 package me.pljr.servercore.listeners;
 
-import me.pljr.pljrapi.utils.PlayerUtil;
+import me.pljr.pljrapispigot.utils.PlayerUtil;
 import me.pljr.servercore.ServerCore;
 import me.pljr.servercore.config.CfgSettings;
 import me.pljr.servercore.managers.SpawnManager;
@@ -30,7 +30,7 @@ public class PlayerJoinListener implements Listener {
             if (corePlayer.getDeathLoc() == null){
                 corePlayer.setDeathLoc(player.getLocation());
             }
-            if (!player.hasPlayedBefore() || CfgSettings.alwaysSpawnOnSpawn){
+            if (!player.hasPlayedBefore() || CfgSettings.ALWAYS_SPAWN_ON_SPAWN){
                 PlayerUtil.teleport(player, spawn, false);
             }
         }

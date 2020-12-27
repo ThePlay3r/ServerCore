@@ -1,9 +1,8 @@
 package me.pljr.servercore.commands;
 
-import me.pljr.pljrapi.utils.CommandUtil;
+import me.pljr.pljrapispigot.utils.CommandUtil;
 import me.pljr.servercore.ServerCore;
-import me.pljr.servercore.config.CfgLang;
-import me.pljr.servercore.enums.Lang;
+import me.pljr.servercore.config.Lang;
 import me.pljr.servercore.objects.CorePlayer;
 import me.pljr.servercore.utils.HomeUtil;
 import org.bukkit.Location;
@@ -14,17 +13,14 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class SethomeCommnad extends CommandUtil implements CommandExecutor {
+public class SethomeCommand extends CommandUtil {
+
+    public SethomeCommand(){
+        super("sethome", "servercore.sethome.use");
+    }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)){
-            sendMessage(sender, CfgLang.lang.get(Lang.NO_CONSOLE));
-            return false;
-        }
-        Player player = (Player) sender;
-        if (!checkPerm(player, "servercore.sethome.use")) return false;
-
+    public void onPlayerCommand(Player player, String[] args){
         Location playerLoc = player.getLocation();
         UUID playerId = player.getUniqueId();
 
@@ -37,19 +33,18 @@ public class SethomeCommnad extends CommandUtil implements CommandExecutor {
             // /sethome <home>
             if (corePlayer.getHomes().containsKey(args[0])){
                 ServerCore.getPlayerManager().setHome(player, args[0], playerLoc);
-                sendMessage(player, CfgLang.lang.get(Lang.SETHOME_SUCCESS).replace("%name", args[0]));
-                return true;
+                sendMessage(player, Lang.SETHOME_SUCCESS.get().replace("{name}", args[0]));
+                return;
             }
             if (!canMore){
-                sendMessage(player, CfgLang.lang.get(Lang.SETHOME_FAILURE_MAX_HOMES));
-                return false;
+                sendMessage(player, Lang.SETHOME_FAILURE_MAX_HOMES.get());
+                return;
             }
             ServerCore.getPlayerManager().setHome(player, args[0], playerLoc);
-            sendMessage(player, CfgLang.lang.get(Lang.SETHOME_SUCCESS).replace("%name", args[0]));
-            return true;
+            sendMessage(player, Lang.SETHOME_SUCCESS.get().replace("{name}", args[0]));
+            return;
         }
 
-        sendMessage(player, CfgLang.lang.get(Lang.SETHOME_USAGE));
-        return false;
+        sendMessage(player, Lang.SETHOME_USAGE.get());
     }
 }
