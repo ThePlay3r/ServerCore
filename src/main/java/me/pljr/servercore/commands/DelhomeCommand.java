@@ -3,10 +3,6 @@ package me.pljr.servercore.commands;
 import me.pljr.pljrapispigot.utils.CommandUtil;
 import me.pljr.servercore.ServerCore;
 import me.pljr.servercore.config.Lang;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 public class DelhomeCommand extends CommandUtil {

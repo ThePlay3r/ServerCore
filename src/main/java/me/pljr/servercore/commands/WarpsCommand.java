@@ -6,8 +6,6 @@ import me.pljr.servercore.config.CfgSettings;
 import me.pljr.servercore.config.Lang;
 import me.pljr.servercore.managers.WarpManager;
 import me.pljr.servercore.menus.WarpMenu;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 

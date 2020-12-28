@@ -1,7 +1,6 @@
 package me.pljr.servercore.menus;
 
 import me.pljr.pljrapispigot.builders.GUIBuilder;
-import me.pljr.pljrapispigot.managers.GUIManager;
 import me.pljr.pljrapispigot.objects.GUI;
 import me.pljr.pljrapispigot.objects.GUIItem;
 import me.pljr.pljrapispigot.utils.PlayerUtil;
@@ -10,7 +9,6 @@ import me.pljr.servercore.config.CfgBackMenu;
 import me.pljr.servercore.managers.PlayerManager;
 import me.pljr.servercore.objects.CorePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 
 import java.util.UUID;
 
