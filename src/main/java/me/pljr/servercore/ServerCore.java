@@ -21,12 +21,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class ServerCore extends JavaPlugin {
     private static ServerCore instance;
-    private static ConfigManager configManager;
-    private static ConfigManager databaseFileManager;
     private static PlayerManager playerManager;
     private static QueryManager queryManager;
     private static WarpManager warpManager;
     private static SpawnManager spawnManager;
+
+    // Files
+    private static ConfigManager configManager;
+    private static ConfigManager databaseFileManager;
+    private static ConfigManager langManager;
 
     @Override
     public void onEnable() {
@@ -43,11 +46,12 @@ public final class ServerCore extends JavaPlugin {
         saveDefaultConfig();
         reloadConfig();
         configManager = new ConfigManager(this, "config.yml");
+        databaseFileManager = new ConfigManager(this, "database.yml");
+        langManager = new ConfigManager(this, "lang.yml");
         CfgSettings.load(configManager);
         CfgBackMenu.load(configManager);
         CfgWarpMenu.load(configManager);
-        Lang.load(configManager);
-        databaseFileManager = new ConfigManager(this, "database.yml");
+        Lang.load(langManager);
     }
 
     private void setupManagers(){
