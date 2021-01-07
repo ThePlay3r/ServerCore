@@ -2,7 +2,7 @@ name: ServerCore
 version: ${project.version}
 main: me.pljr.servercore.ServerCore
 api-version: 1.13
-depend: [PLJRApi]
+depend: [PLJRApi-Spigot]
 authors: [9hx]
 description: Essentials of a Spigot server.
 commands:

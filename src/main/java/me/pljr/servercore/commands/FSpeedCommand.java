@@ -25,7 +25,7 @@ public class FSpeedCommand extends CommandUtil implements CommandExecutor {
                 speed = 0;
             }
             player.setFlySpeed(speed/10);
-            sendMessage(player, Lang.FSPEED_SUCCESS.get().replace("%speed", args[0]));
+            sendMessage(player, Lang.FSPEED_SUCCESS.get().replace("{speed}", args[0]));
             return;
         }
 
@@ -42,8 +42,8 @@ public class FSpeedCommand extends CommandUtil implements CommandExecutor {
                 speed = 0;
             }
             target.setFlySpeed(speed/10);
-            sendMessage(player, Lang.FSPEED_SUCCESS_OTHERS.get().replace("{player}", target.getName()).replace("%speed", args[1]));
-            sendMessage(target, Lang.FSPEED_SUCCESS_OTHERS_PLAYER.get().replace("{player}", player.getName()).replace("%speed", args[1]));
+            sendMessage(player, Lang.FSPEED_SUCCESS_OTHERS.get().replace("{player}", target.getName()).replace("{speed}", args[1]));
+            sendMessage(target, Lang.FSPEED_SUCCESS_OTHERS_PLAYER.get().replace("{player}", player.getName()).replace("{speed}", args[1]));
             return;
         }
 
@@ -64,8 +64,8 @@ public class FSpeedCommand extends CommandUtil implements CommandExecutor {
                 speed = 0;
             }
             target.setFlySpeed(speed/10);
-            sendMessage(sender, Lang.FSPEED_SUCCESS_OTHERS.get().replace("{player}", target.getName()).replace("%speed", args[1]));
-            sendMessage(target, Lang.FSPEED_SUCCESS_OTHERS_PLAYER.get().replace("{player}", "Console").replace("%speed", args[1]));
+            sendMessage(sender, Lang.FSPEED_SUCCESS_OTHERS.get().replace("{player}", target.getName()).replace("{speed}", args[1]));
+            sendMessage(target, Lang.FSPEED_SUCCESS_OTHERS_PLAYER.get().replace("{player}", "Console").replace("{speed}", args[1]));
             return;
         }
 

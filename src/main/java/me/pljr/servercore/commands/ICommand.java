@@ -21,7 +21,7 @@ public class ICommand extends CommandUtil implements CommandExecutor {
             if (!checkMaterial(player, args[0])) return;
             ItemStack itemStack = XMaterial.valueOf(args[0].toUpperCase()).parseItem();
             PlayerUtil.give(player, itemStack);
-            sendMessage(player, Lang.I_SUCCESS.get().replace("%material", args[0]));
+            sendMessage(player, Lang.I_SUCCESS.get().replace("{material}", args[0]));
             return;
         }
 

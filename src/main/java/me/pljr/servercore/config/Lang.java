@@ -11,7 +11,7 @@ public enum Lang {
     CI_SUCCESS_OTHERS("§aServerCore §8» §fSuccessfully cleared inventory of §b{player}§f."),
     CI_SUCCESS_OTHERS_PLAYER("§aServerCore §8» §fYour inventory has been cleared by §b{player}§f."),
     I_USAGE("§aServerCore §8» §bUsage: §f/i <material>"),
-    I_SUCCESS("§aServerCore §8» §fYou successfully received §b%material§f."),
+    I_SUCCESS("§aServerCore §8» §fYou successfully received §b{material}§f."),
     BACK_SUCCESS("§aServerCore §8» §fOpening menu.."),
     FLY_USAGE("§aServerCore §8» §bUsage: §f/fly <player>"),
     FLY_SUCCESS_ON("§aServerCore §8» §fFly §bactivated§f."),
@@ -21,18 +21,18 @@ public enum Lang {
     FLY_SUCCESS_OTHERS_ON_PLAYER("§aServerCore §8» §fYour flight has been §benabled §fby §b{player}§f."),
     FLY_SUCCESS_OTHERS_OFF_PLAYER("§aServerCore §8» §fYour flight has been §fdisabled §fby §b{player}§f."),
     FSPEED_USAGE("§aServerCore §8» §bUsage: §f/fspeed <player> <speed>"),
-    FSPEED_SUCCESS("§aServerCore §8» §fSuccessfully set your flight speed to §b%speed§f."),
-    FSPEED_SUCCESS_OTHERS("§aServerCore §8» §fSuccessfully set flight speed of §b{player} §fto §b%speed§f."),
-    FSPEED_SUCCESS_OTHERS_PLAYER("§aServerCore §8» §fYour flight speed has been set to §b%speed §fby §b{player}§f."),
+    FSPEED_SUCCESS("§aServerCore §8» §fSuccessfully set your flight speed to §b{speed}§f."),
+    FSPEED_SUCCESS_OTHERS("§aServerCore §8» §fSuccessfully set flight speed of §b{player} §fto §b{speed}§f."),
+    FSPEED_SUCCESS_OTHERS_PLAYER("§aServerCore §8» §fYour flight speed has been set to §b{speed} §fby §b{player}§f."),
     WSPEED_USAGE("§aServerCore §8» §bUsage: §f/wspeed <player> <speed>"),
-    WSPEED_SUCCESS("§aServerCore §8» §fSuccessfully set your walk speed to §b%speed§f."),
+    WSPEED_SUCCESS("§aServerCore §8» §fSuccessfully set your walk speed to §b{speed}§f."),
     WSPEED_SUCCESS_OTHERS("§aServerCore §8» §fSuccessfully set walk speed of §b{player} §fto §b{player}§f."),
-    WSPEED_SUCCESS_OTHERS_PLAYER("§aServerCore §8» §fYour walk speed has been set to §b%speed §fby §b{player}§f."),
+    WSPEED_SUCCESS_OTHERS_PLAYER("§aServerCore §8» §fYour walk speed has been set to §b{speed} §fby §b{player}§f."),
     GAMEMODE_USAGE("§aServerCore §8» §bUsage: §f/gamemode <type> <player>"),
-    GAMEMODE_SUCCESS("§aServerCore §8» §fYour gamemode has been set to §b%type§f."),
-    GAMEMODE_SUCCESS_OTHERS("§aServerCore §8» §fSuccessfully set gamemode of §b{player} §fto §b%type§f."),
-    GAMEMODE_SUCCESS_OTHERS_PLAYER("§aServerCore §8» §fYour gamemode has been set to §b%type §fby §b{player}§f."),
-    GAMEMODE_FAILURE_NO_GAMEMODE("§aServerCore §8» §b%type §fis not a valid gamemode!"),
+    GAMEMODE_SUCCESS("§aServerCore §8» §fYour gamemode has been set to §b{type}§f."),
+    GAMEMODE_SUCCESS_OTHERS("§aServerCore §8» §fSuccessfully set gamemode of §b{player} §fto §b{type}§f."),
+    GAMEMODE_SUCCESS_OTHERS_PLAYER("§aServerCore §8» §fYour gamemode has been set to §b{type} §fby §b{player}§f."),
+    GAMEMODE_FAILURE_NO_GAMEMODE("§aServerCore §8» §b{type} §fis not a valid gamemode!"),
     GAMEMODE_GMC_USAGE("§aServerCore §8» §bUsage: §f/gmc <player>"),
     GAMEMODE_GMS_USAGE("§aServerCore §8» §bUsage: §f/gms <player>"),
     GAMEMODE_GMA_USAGE("§aServerCore §8» §bUsage: §f/gma <player>"),
@@ -66,7 +66,7 @@ public enum Lang {
             "<hover:show_text:'§eClick to teleport'><click:run_command:'ahome {player} {name}'>§e➹</hover></click>" +
             "<hover:show_text:'§cClick to remove'><click:run_command:'adelhome {player} {name}'>§c✕</hover></click>"),
     RELORE_USAGE("§aServerCore §8» §bUsage: §f/relore <line> <text> §7(With item in hand)"),
-    RELORE_SUCCESS("§aServerCore §8» §fSuccessfully changed line §b%line §fto §b%text§f."),
+    RELORE_SUCCESS("§aServerCore §8» §fSuccessfully changed line §b{line} §fto §b{text}§f."),
     RENAME_USAGE("§aServerCore §8» §bUsage: §f/rename <name> §7(With item in hand)"),
     RENAME_SUCCESS("§aServerCore §8» §fSuccessfully renamed item to §b{name}§f."),
     SKULL_USAGE("§aServerCore §8» §bUsage: §f/skull <name>"),
@@ -102,15 +102,15 @@ public enum Lang {
     SUN_SUCCESS("§aServerCore §8» §fSuccessfully set weather to §bsunny."),
     THUNDER_SUCCESS("§aServerCore §8» §fSuccessfully set weather to §bthunder."),
     WARP_USAGE("§aServerCore §8» §bUsage: §f/warp <name>"),
-    WARP_SUCCESS("§aServerCore §8» §fTeleporting to §b%warp§f."),
-    WARP_FAILURE_NO_WARP("§aServerCore §8» §b%warp §fis not a warp."),
+    WARP_SUCCESS("§aServerCore §8» §fTeleporting to §b{warp}§f."),
+    WARP_FAILURE_NO_WARP("§aServerCore §8» §b{warp} §fis not a warp."),
     SETWARP_USAGE("§aServerCore §8» §bUsage: §f/setwarp <name>"),
-    SETWARP_SUCCESS("§aServerCore §8» §fSuccessfully created warp §b%warp§f." +
-            "\n<hover:show_text:'§eClick to teleport'><click:run_command:'warp %warp'>§e§lTeleport §e➹</click></hover>" +
-            "\n<hover:show_text:'§cClick to remove'><click:run_command:'delwarp %warp'>§c§lRemove §c✕</click></hover>"),
+    SETWARP_SUCCESS("§aServerCore §8» §fSuccessfully created warp §b{warp}§f." +
+            "\n<hover:show_text:'§eClick to teleport'><click:run_command:'warp {warp}'>§e§lTeleport §e➹</click></hover>" +
+            "\n<hover:show_text:'§cClick to remove'><click:run_command:'delwarp {warp}'>§c§lRemove §c✕</click></hover>"),
     DELWARP_USAGE("§aServerCore §8» §bUsage: §f/delwarp <name>"),
-    DELWARP_SUCCESS("§aServerCore §8» §fSuccessfully removed warp §b%warp§f."),
-    DELWARP_FAILURE_NO_WARP("§aServerCore §8» §b%warp §fdoes not exists."),
+    DELWARP_SUCCESS("§aServerCore §8» §fSuccessfully removed warp §b{warp}§f."),
+    DELWARP_FAILURE_NO_WARP("§aServerCore §8» §b{warp} §fdoes not exists."),
     WARPS_SUCCESS_TITLE("§aServerCore §8» §bServer warps:"),
     WARPS_SUCCESS_FORMAT("§7- §f{name} <hover:show_text:'§eClick to teleport'><click:run_command:'warp {name}'>§e➹</hover></click>"),
     WARPS_SUCCESS_FORMAT_REMOVE("§7- §f{name}" +
@@ -127,7 +127,9 @@ public enum Lang {
     SERVERCORE_SPY_SUCCESS_OFF("§aServerCore §8» §fSuccessfully §bdisabled §fspying."),
     AWARP_SUCCESS("§aServerCore §8» §fSuccessfully teleported §b{player} §fto §b{warp}§f."),
     AWARP_SUCCESS_PLAYER("§aServerCore §8» §fYou have been teleported to §b{warp} §fby §b{player}§f."),
-    AWARP_USAGE("§aServerCore §8» §bUsage: §f/awarp <player> <warp>");
+    AWARP_USAGE("§aServerCore §8» §bUsage: §f/awarp <player> <warp>"),
+    BACK_MENU_TITLE("§aServerCore §8> §b/back"),
+    WARP_MENU_TITLE("§aServerCore §8> §bWarps");
 
     private static HashMap<Lang, String> lang;
     private final String defaultValue;

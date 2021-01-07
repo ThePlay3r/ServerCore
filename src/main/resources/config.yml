@@ -37,36 +37,3 @@ settings:
   night-time: 13000 #-> What should be the time, when using the /night command? (in ticks)
 #|--------------------------------------------------------------------------------------------------------------------|#
 
-###############\
-# Menus Setup #######################################################\
-############### Here, you can customize the looks of in-game menus. # \
-              #######################################################  \
-back-menu:
-  title: "§aServerCore §8> §b/back"
-  background:
-    type: "BLACK_STAINED_GLASS_PANE"
-    name: "§0"
-  last-location:
-    type: "GLOWSTONE_DUST"
-    name: "§eLast location"
-    lore:
-      - "§fClick to teleport to your last location."
-  death-location:
-    type: "REDSTONE"
-    name: "§cDeath location"
-    lore:
-      - "§fClick to teleport to your death location."
-
-warp-menu:
-  title: "§aServerCore §8> §bWarps"
-  background:
-    type: "BLACK_STAINED_GLASS_PANE"
-    name: "§0"
-  warp-item:
-    type: "PAPER"
-    name: "§e%warp"
-    lore:
-      - "§fClick to be teleported to"
-      - "§e%warp§f."
-#|--------------------------------------------------------------------------------------------------------------------|#
-

@@ -24,7 +24,7 @@ public class WSpeedCommand extends CommandUtil {
                 speed = 0;
             }
             player.setWalkSpeed(speed/10);
-            sendMessage(player, Lang.WSPEED_SUCCESS.get().replace("%speed", args[0]));
+            sendMessage(player, Lang.WSPEED_SUCCESS.get().replace("{speed}", args[0]));
             return;
         }
 
@@ -41,8 +41,8 @@ public class WSpeedCommand extends CommandUtil {
                 speed = 0;
             }
             target.setWalkSpeed(speed/10);
-            sendMessage(player, Lang.WSPEED_SUCCESS_OTHERS.get().replace("{player}", target.getName()).replace("%speed", args[1]));
-            sendMessage(target, Lang.WSPEED_SUCCESS_OTHERS_PLAYER.get().replace("{player}", player.getName()).replace("%speed", args[1]));
+            sendMessage(player, Lang.WSPEED_SUCCESS_OTHERS.get().replace("{player}", target.getName()).replace("{speed}", args[1]));
+            sendMessage(target, Lang.WSPEED_SUCCESS_OTHERS_PLAYER.get().replace("{player}", player.getName()).replace("{speed}", args[1]));
             return;
         }
 
@@ -64,8 +64,8 @@ public class WSpeedCommand extends CommandUtil {
                 speed = 0;
             }
             target.setWalkSpeed(speed/10);
-            sendMessage(sender, Lang.WSPEED_SUCCESS_OTHERS.get().replace("{player}", target.getName()).replace("%speed", args[1]));
-            sendMessage(target, Lang.WSPEED_SUCCESS_OTHERS_PLAYER.get().replace("{player}", sender.getName()).replace("%speed", args[1]));
+            sendMessage(sender, Lang.WSPEED_SUCCESS_OTHERS.get().replace("{player}", target.getName()).replace("{speed}", args[1]));
+            sendMessage(target, Lang.WSPEED_SUCCESS_OTHERS_PLAYER.get().replace("{player}", sender.getName()).replace("{speed}", args[1]));
             return;
         }
 

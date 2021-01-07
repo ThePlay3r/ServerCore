@@ -3,10 +3,7 @@ package me.pljr.servercore;
 import me.pljr.pljrapispigot.database.DataSource;
 import me.pljr.pljrapispigot.managers.ConfigManager;
 import me.pljr.servercore.commands.*;
-import me.pljr.servercore.config.CfgBackMenu;
-import me.pljr.servercore.config.CfgSettings;
-import me.pljr.servercore.config.CfgWarpMenu;
-import me.pljr.servercore.config.Lang;
+import me.pljr.servercore.config.*;
 import me.pljr.servercore.listeners.*;
 import me.pljr.servercore.managers.PlayerManager;
 import me.pljr.servercore.managers.QueryManager;
@@ -30,6 +27,7 @@ public final class ServerCore extends JavaPlugin {
     private static ConfigManager configManager;
     private static ConfigManager databaseFileManager;
     private static ConfigManager langManager;
+    private static ConfigManager menuFileManager;
 
     @Override
     public void onEnable() {
@@ -48,10 +46,10 @@ public final class ServerCore extends JavaPlugin {
         configManager = new ConfigManager(this, "config.yml");
         databaseFileManager = new ConfigManager(this, "database.yml");
         langManager = new ConfigManager(this, "lang.yml");
+        menuFileManager = new ConfigManager(this, "menus.yml");
         CfgSettings.load(configManager);
-        CfgBackMenu.load(configManager);
-        CfgWarpMenu.load(configManager);
         Lang.load(langManager);
+        MenuItem.load(menuFileManager);
     }
 
     private void setupManagers(){

@@ -12,7 +12,7 @@ import java.util.UUID;
 public class TpacceptCommand extends CommandUtil {
 
     public TpacceptCommand(){
-        super("tpaaccept", "servercore.tpaccept.use");
+        super("tpaccept", "servercore.tpaccept.use");
     }
 
     @Override
