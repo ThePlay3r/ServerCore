@@ -26,7 +26,7 @@ public class WarpCommand extends CommandUtil {
                 return;
             }
             if (!checkPerm(player, "servercore.warp.use." + args[0])) return;
-            PlayerUtil.teleport(player, warpManager.getWarps().get(args[0]), true);
+            PlayerUtil.teleport(player, warpManager.getWarps().get(args[0]));
             sendMessage(player, Lang.WARP_SUCCESS.get().replace("{warp}", args[0]));
             return;
         }

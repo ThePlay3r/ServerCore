@@ -24,7 +24,7 @@ public class SpawnCommand extends CommandUtil {
             sendMessage(player, Lang.SPAWN_FAILURE_NO_SPAWN.get());
             return;
         }
-        PlayerUtil.teleport(player, spawnLoc, true);
+        PlayerUtil.teleport(player, spawnLoc);
         sendMessage(player, Lang.SPAWN_SUCCESS.get());
     }
 }

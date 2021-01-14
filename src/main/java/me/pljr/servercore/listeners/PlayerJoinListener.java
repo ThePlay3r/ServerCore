@@ -31,7 +31,7 @@ public class PlayerJoinListener implements Listener {
                 corePlayer.setDeathLoc(player.getLocation());
             }
             if (!player.hasPlayedBefore() || CfgSettings.ALWAYS_SPAWN_ON_SPAWN){
-                PlayerUtil.teleport(player, spawn, false);
+                PlayerUtil.teleport(player, spawn);
             }
         }
     }

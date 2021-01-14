@@ -30,14 +30,14 @@ public class BackMenu {
             guiBuilder.setItem(12, new GUIItem(MenuItem.BACK_LAST_LOCATION.get(),
                     run -> {
                         player.closeInventory();
-                        PlayerUtil.teleport(player, corePlayer.getLastLoc(), true);
+                        PlayerUtil.teleport(player, corePlayer.getLastLoc());
                     }));
         }
         if (player.hasPermission("servercore.back.use.death")){
             guiBuilder.setItem(14, new GUIItem(MenuItem.BACK_DEATH_LOCATION.get(),
                     run -> {
                         player.closeInventory();
-                        PlayerUtil.teleport(player, corePlayer.getDeathLoc(), true);
+                        PlayerUtil.teleport(player, corePlayer.getDeathLoc());
                     }));
         }
         return guiBuilder.create();

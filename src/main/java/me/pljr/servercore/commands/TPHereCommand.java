@@ -21,7 +21,7 @@ public class TPHereCommand extends CommandUtil {
             // /tphere <player>
             if (!checkPlayer(player, args[0])) return;
             Player target = Bukkit.getPlayer(args[0]);
-            PlayerUtil.teleport(target, player, CfgSettings.TPHERE_DELAY);
+            PlayerUtil.teleport(target, player);
             sendMessage(player, Lang.TPHERE_SUCCESS.get().replace("{player}", args[0]));
             sendMessage(target, Lang.TPHERE_SUCCESS_PLAYER.get().replace("{player}", playerName));
             return;

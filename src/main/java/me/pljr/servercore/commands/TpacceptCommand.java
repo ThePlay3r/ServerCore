@@ -31,7 +31,7 @@ public class TpacceptCommand extends CommandUtil {
             return;
         }
         String tpaRequesterName = tpaRequester.getName();
-        PlayerUtil.teleport(tpaRequester, player, true);
+        PlayerUtil.teleport(tpaRequester, player);
         sendMessage(player, Lang.TPACCEPT_SUCCESS.get().replace("{player}", tpaRequesterName));
         sendMessage(tpaRequester, Lang.TPACCEPT_SUCCESS_PLAYER.get().replace("{player}", playerName));
     }

@@ -22,7 +22,7 @@ public class TPCommand extends CommandUtil {
             // /tp <player>
             if (!checkPlayer(player, args[0])) return;
             Player target = Bukkit.getPlayer(args[0]);
-            PlayerUtil.teleport(player, target, CfgSettings.TP_DELAY);
+            PlayerUtil.teleport(player, target);
             sendMessage(player, Lang.TP_SUCCESS.get().replace("{player}", args[0]));
             sendMessage(target, Lang.TP_SUCCESS_PLAYER.get().replace("{player}", playerName));
             return;
@@ -34,7 +34,7 @@ public class TPCommand extends CommandUtil {
             if (!checkPlayer(player, args[1])) return;
             Player player1 = Bukkit.getPlayer(args[0]);
             Player player2 = Bukkit.getPlayer(args[1]);
-            PlayerUtil.teleport(player1, player2, CfgSettings.TP_OTHER_DELAY);
+            PlayerUtil.teleport(player1, player2);
             sendMessage(player, Lang.TP_SUCCESS_OTHERS.get().replace("{player1}", args[0]).replace("{player2}", args[1]));
             sendMessage(player1, Lang.TP_SUCCESS_OTHERS_PLAYER1.get().replace("{target}", args[1]).replace("{player}", playerName));
             sendMessage(player2, Lang.TP_SUCCESS_OTHERS_PLAYER2.get().replace("{target}", args[0]).replace("{player}", playerName));
@@ -54,7 +54,7 @@ public class TPCommand extends CommandUtil {
             if (!checkPlayer(sender, args[1])) return;
             Player player1 = Bukkit.getPlayer(args[0]);
             Player player2 = Bukkit.getPlayer(args[1]);
-            PlayerUtil.teleport(player1, player2, CfgSettings.TP_OTHER_DELAY);
+            PlayerUtil.teleport(player1, player2);
             sendMessage(sender, Lang.TP_SUCCESS_OTHERS.get().replace("{player1}", args[0]).replace("{player2}", args[1]));
             sendMessage(player1, Lang.TP_SUCCESS_OTHERS_PLAYER1.get().replace("{target}", args[1]).replace("{player}", senderName));
             sendMessage(player2, Lang.TP_SUCCESS_OTHERS_PLAYER2.get().replace("{target}", args[0]).replace("{player}", senderName));

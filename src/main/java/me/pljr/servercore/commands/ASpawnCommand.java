@@ -33,7 +33,7 @@ public class ASpawnCommand extends CommandUtil {
             // /aspawn <player>
             if (!checkPlayer(player, args[0])) return;
             Player target = Bukkit.getPlayer(args[0]);
-            PlayerUtil.teleport(target, spawnLoc, CfgSettings.ASPAWN_DELAY);
+            PlayerUtil.teleport(target, spawnLoc);
             sendMessage(player, Lang.ASPAWN_SUCCESS.get().replace("{player}", args[0]));
             sendMessage(target, Lang.ASPAWN_SUCCESS_PLAYER.get().replace("{player}", playerName));
             return;
@@ -58,7 +58,7 @@ public class ASpawnCommand extends CommandUtil {
             // /aspawn <player>
             if (!checkPlayer(sender, args[0])) return;
             Player target = Bukkit.getPlayer(args[0]);
-            PlayerUtil.teleport(target, spawnLoc, CfgSettings.ASPAWN_DELAY);
+            PlayerUtil.teleport(target, spawnLoc);
             sendMessage(sender, Lang.ASPAWN_SUCCESS.get().replace("{player}", args[0]));
             sendMessage(target, Lang.ASPAWN_SUCCESS_PLAYER.get().replace("{player}", senderName));
             return;

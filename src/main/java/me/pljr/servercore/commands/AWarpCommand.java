@@ -33,7 +33,7 @@ public class AWarpCommand extends CommandUtil {
             sendMessage(target, Lang.AWARP_SUCCESS.get()
                     .replace("{player}", "Console")
                     .replace("{warp}", args[1]));
-            PlayerUtil.teleport(target, warpManager.getWarp(args[1]), true);
+            PlayerUtil.teleport(target, warpManager.getWarp(args[1]));
             return;
         }
 
@@ -58,7 +58,7 @@ public class AWarpCommand extends CommandUtil {
             sendMessage(target, Lang.AWARP_SUCCESS.get()
                     .replace("{player}", "Console")
                     .replace("{warp}", args[1]));
-            PlayerUtil.teleport(target, warpManager.getWarp(args[1]), true);
+            PlayerUtil.teleport(target, warpManager.getWarp(args[1]));
             return;
         }
 

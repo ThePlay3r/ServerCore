@@ -29,7 +29,7 @@ public class HomeCommand extends CommandUtil {
                 sendMessage(player, Lang.HOME_FAILURE_NO_HOME.get().replace("{name}", args[0]));
                 return;
             }
-            PlayerUtil.teleport(player, homeLoc, true);
+            PlayerUtil.teleport(player, homeLoc);
             sendMessage(player, Lang.HOME_SUCCESS.get().replace("{name}", args[0]));
             return;
         }

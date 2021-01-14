@@ -30,7 +30,7 @@ public class AHomeCommand extends CommandUtil {
                 sendMessage(player, Lang.AHOME_FAILURE_NO_HOME.get().replace("{player}", args[0]).replace("{home}", args[1]));
                 return;
             }
-            PlayerUtil.teleport(player, targetHome, true);
+            PlayerUtil.teleport(player, targetHome);
             sendMessage(player, Lang.AHOME_SUCCESS.get().replace("{player}", args[0]).replace("{home}", args[1]));
             return;
         }
