@@ -1,28 +1,22 @@
 package me.pljr.servercore.managers;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import me.pljr.pljrapispigot.managers.ConfigManager;
 import me.pljr.servercore.ServerCore;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 
+@AllArgsConstructor
 public class SpawnManager {
+
+    private final ConfigManager database;
+    @Setter @Getter
     private Location location;
-
-    public SpawnManager(){
-        this.location = null;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
 
     public void saveToFile(){
         if (location == null) return;
-        ConfigManager database = ServerCore.getDatabaseFileManager();
         FileConfiguration configuration = database.getConfig();
         configuration.set("spawnLocation.world", location.getWorld().getName());
         configuration.set("spawnLocation.x", location.getX());

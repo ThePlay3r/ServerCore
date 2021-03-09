@@ -1,5 +1,6 @@
 package me.pljr.servercore.menus;
 
+import lombok.Getter;
 import me.pljr.pljrapispigot.builders.GUIBuilder;
 import me.pljr.pljrapispigot.builders.ItemBuilder;
 import me.pljr.pljrapispigot.objects.GUI;
@@ -13,16 +14,18 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
+@Getter
 public class WarpMenu {
 
-    public static GUI get(Player player){
+    private final GUI gui;
+
+    public WarpMenu(Player player, WarpManager warpManager){
         GUIBuilder builder = new GUIBuilder(Lang.WARP_MENU_TITLE.get(), 6);
 
         for (int i = 0; i < 6*9; i++){
             builder.setItem(i, MenuItem.WARP_BACKGROUND.get());
         }
 
-        WarpManager warpManager = ServerCore.getWarpManager();
         int warpSlot = 0;
         List<String> warps = warpManager.getWarpNames();
 
@@ -43,6 +46,6 @@ public class WarpMenu {
             warpSlot++;
         }
 
-        return builder.create();
+        gui = builder.create();
     }
 }

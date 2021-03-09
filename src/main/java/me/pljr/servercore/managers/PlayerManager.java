@@ -1,26 +1,34 @@
 package me.pljr.servercore.managers;
 
+import lombok.AllArgsConstructor;
 import me.pljr.servercore.ServerCore;
 import me.pljr.servercore.objects.CorePlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.function.Consumer;
 
+@AllArgsConstructor
 public class PlayerManager {
-    private final HashMap<UUID, CorePlayer> players;
 
-    public PlayerManager(){
-        players = new HashMap<>();
-    }
+    private final HashMap<UUID, CorePlayer> players = new HashMap<>();
+    private final JavaPlugin plugin;
+    private final QueryManager queryManager;
 
-    public CorePlayer getCorePlayer(UUID uuid){
-        if (players.containsKey(uuid)){
-            return players.get(uuid);
+    public void getCorePlayer(UUID uuid, Consumer<CorePlayer> consumer){
+        if (!players.containsKey(uuid)){
+            Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+                CorePlayer corePlayer = queryManager.loadPlayer(uuid);
+                setCorePlayer(uuid, corePlayer);
+                consumer.accept(corePlayer);
+            });
+        }else{
+            consumer.accept(players.get(uuid));
         }
-        ServerCore.getQueryManager().loadPlayerSync(uuid);
-        return getCorePlayer(uuid);
     }
 
     public void setCorePlayer(UUID uuid, CorePlayer corePlayer){
@@ -30,7 +38,7 @@ public class PlayerManager {
 
     public void savePlayer(UUID uuid){
         if (!players.containsKey(uuid)) return;
-        ServerCore.getQueryManager().savePlayer(uuid);
+        queryManager.savePlayer(players.get(uuid));
     }
 
     public void setHome(OfflinePlayer player, String name, Location location){

@@ -39,18 +39,15 @@ public enum MenuItem {
         menuItem = new HashMap<>();
         for (MenuItem menuItem : values()){
             if (!fileConfig.isSet(menuItem.toString())){
-                config.setSimpleItemStack(menuItem.toString(), menuItem.getDefault());
+                config.setSimpleItemStack(menuItem.toString(), menuItem.defaultValue);
+            }else{
+                MenuItem.menuItem.put(menuItem, config.getSimpleItemStack(menuItem.toString()));
             }
-            MenuItem.menuItem.put(menuItem, config.getSimpleItemStack(menuItem.toString()));
         }
         config.save();
     }
 
     public ItemStack get(){
-        return menuItem.get(this);
-    }
-
-    public ItemStack getDefault(){
-        return this.defaultValue;
+        return menuItem.getOrDefault(this, defaultValue);
     }
 }

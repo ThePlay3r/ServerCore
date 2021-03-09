@@ -1,5 +1,6 @@
 package me.pljr.servercore.managers;
 
+import lombok.AllArgsConstructor;
 import me.pljr.pljrapispigot.database.DataSource;
 import me.pljr.servercore.ServerCore;
 import me.pljr.servercore.objects.CorePlayer;
@@ -12,105 +13,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.function.Consumer;
 
+@AllArgsConstructor
 public class QueryManager {
-    private final Plugin plugin;
     private final DataSource dataSource;
 
-    public QueryManager(Plugin plugin, DataSource dataSource){
-        this.plugin = plugin;
-        this.dataSource = dataSource;
-    }
-
-    public void loadPlayer(UUID uuid){
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, ()->{
-           try {
-               HashMap<String, Location> homes = new HashMap<>();
-               Connection homesConnection = dataSource.getConnection();
-               PreparedStatement homesStatement = homesConnection.prepareStatement(
-                       "SELECT * FROM servercore_homes WHERE uuid=?"
-               );
-               homesStatement.setString(1, uuid.toString());
-               ResultSet homesResult = homesStatement.executeQuery();
-               while (homesResult.next()){
-                   homes.put(homesResult.getString("name"), new Location(
-                           Bukkit.getWorld(homesResult.getString("loc_world")),
-                           homesResult.getDouble("loc_x"),
-                           homesResult.getDouble("loc_y"),
-                           homesResult.getDouble("loc_z"),
-                           homesResult.getFloat("loc_yaw"),
-                           homesResult.getFloat("loc_pitch")
-                   ));
-               }
-               dataSource.close(homesConnection, homesStatement, homesResult);
-
-               Location lastLoc = null;
-               Location deathLoc = null;
-               Connection locationsConnection = dataSource.getConnection();
-               PreparedStatement locationsStatement = locationsConnection.prepareStatement(
-                       "SELECT * FROM servercore_locations WHERE uuid=?"
-               );
-               locationsStatement.setString(1, uuid.toString());
-               ResultSet locationsResult = locationsStatement.executeQuery();
-               if (locationsResult.next()){
-                   if (Bukkit.getWorld(locationsResult.getString("last_world"))  != null){
-                       lastLoc = new Location(
-                               Bukkit.getWorld(locationsResult.getString("last_world")),
-                               locationsResult.getDouble("last_x"),
-                               locationsResult.getDouble("last_y"),
-                               locationsResult.getDouble("last_z"),
-                               locationsResult.getFloat("last_yaw"),
-                               locationsResult.getFloat("last_pitch")
-                       );
-                   }
-                   if (Bukkit.getWorld(locationsResult.getString("death_world")) != null){
-                       deathLoc = new Location(
-                               Bukkit.getWorld(locationsResult.getString("death_world")),
-                               locationsResult.getDouble("death_x"),
-                               locationsResult.getDouble("death_y"),
-                               locationsResult.getDouble("death_z"),
-                               locationsResult.getFloat("death_yaw"),
-                               locationsResult.getFloat("death_pitch")
-                       );
-                   }
-
-               }
-               dataSource.close(locationsConnection, locationsStatement, locationsResult);
-
-               boolean spy = false;
-               Connection playersConnection = dataSource.getConnection();
-               PreparedStatement playersStatement = playersConnection.prepareStatement(
-                       "SELECT * FROM servercore_players WHERE uuid=?"
-               );
-               playersStatement.setString(1, uuid.toString());
-               ResultSet playersResult = playersStatement.executeQuery();
-               if (playersResult.next()){
-                   spy = playersResult.getBoolean("spy");
-               }
-               dataSource.close(playersConnection, playersStatement, playersResult);
-
-               List<String> tpaBlocked = new ArrayList<>();
-               Connection tpaBlockedConnection = dataSource.getConnection();
-               PreparedStatement tpaBlockedStatement = tpaBlockedConnection.prepareStatement(
-                       "SELECT * FROM servercore_tpaBlocked WHERE uuid=?"
-               );
-               tpaBlockedStatement.setString(1, uuid.toString());
-               ResultSet tpaBlockedResult = tpaBlockedStatement.executeQuery();
-               while (tpaBlockedResult.next()){
-                   tpaBlocked.add(tpaBlockedResult.getString("blocked"));
-               }
-               dataSource.close(tpaBlockedConnection, tpaBlockedStatement, tpaBlockedResult);
-
-               ServerCore.getPlayerManager().setCorePlayer(uuid, new CorePlayer(lastLoc, deathLoc, homes, spy, tpaBlocked));
-           }catch (SQLException e){
-               e.printStackTrace();
-           }
-        });
-    }
-
-    public void loadPlayerSync(UUID uuid){
+    public CorePlayer loadPlayer(UUID uuid){
+        Location lastLoc = null;
+        Location deathLoc = null;
+        HashMap<String, Location> homes = new HashMap<>();
+        boolean spy = false;
+        List<String> tpaBlocked = new ArrayList<>();
         try {
-            HashMap<String, Location> homes = new HashMap<>();
             Connection homesConnection = dataSource.getConnection();
             PreparedStatement homesStatement = homesConnection.prepareStatement(
                     "SELECT * FROM servercore_homes WHERE uuid=?"
@@ -129,8 +44,6 @@ public class QueryManager {
             }
             dataSource.close(homesConnection, homesStatement, homesResult);
 
-            Location lastLoc = null;
-            Location deathLoc = null;
             Connection locationsConnection = dataSource.getConnection();
             PreparedStatement locationsStatement = locationsConnection.prepareStatement(
                     "SELECT * FROM servercore_locations WHERE uuid=?"
@@ -158,10 +71,10 @@ public class QueryManager {
                             locationsResult.getFloat("death_pitch")
                     );
                 }
+
             }
             dataSource.close(locationsConnection, locationsStatement, locationsResult);
 
-            boolean spy = false;
             Connection playersConnection = dataSource.getConnection();
             PreparedStatement playersStatement = playersConnection.prepareStatement(
                     "SELECT * FROM servercore_players WHERE uuid=?"
@@ -173,7 +86,6 @@ public class QueryManager {
             }
             dataSource.close(playersConnection, playersStatement, playersResult);
 
-            List<String> tpaBlocked = new ArrayList<>();
             Connection tpaBlockedConnection = dataSource.getConnection();
             PreparedStatement tpaBlockedStatement = tpaBlockedConnection.prepareStatement(
                     "SELECT * FROM servercore_tpaBlocked WHERE uuid=?"
@@ -184,124 +96,15 @@ public class QueryManager {
                 tpaBlocked.add(tpaBlockedResult.getString("blocked"));
             }
             dataSource.close(tpaBlockedConnection, tpaBlockedStatement, tpaBlockedResult);
-
-            ServerCore.getPlayerManager().setCorePlayer(uuid, new CorePlayer(lastLoc, deathLoc, homes, spy, tpaBlocked));
         }catch (SQLException e){
             e.printStackTrace();
         }
+        return new CorePlayer(uuid, lastLoc, deathLoc, homes, spy, null, tpaBlocked);
     }
 
-    public void savePlayer(UUID uuid){
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, ()->{
-            try {
-                CorePlayer corePlayer = ServerCore.getPlayerManager().getCorePlayer(uuid);
-
-                Connection homesDeleteConnection = dataSource.getConnection();
-                PreparedStatement homesDeleteStatement = homesDeleteConnection.prepareStatement(
-                        "DELETE FROM servercore_homes WHERE uuid=?"
-                );
-                homesDeleteStatement.setString(1, uuid.toString());
-                homesDeleteStatement.executeUpdate();
-                dataSource.close(homesDeleteConnection, homesDeleteStatement, null);
-
-                for (Map.Entry<String, Location> entry : corePlayer.getHomes().entrySet()){
-                    Location homeLoc = entry.getValue();
-
-                    Connection homesInsertConnection = dataSource.getConnection();
-                    PreparedStatement homesInsertStatement = homesInsertConnection.prepareStatement(
-                            "INSERT INTO servercore_homes VALUES (?,?,?,?,?,?,?,?)"
-                    );
-                    homesInsertStatement.setString(1, uuid.toString());
-                    homesInsertStatement.setString(2, entry.getKey());
-                    homesInsertStatement.setString(3, homeLoc.getWorld().getName());
-                    homesInsertStatement.setDouble(4, homeLoc.getX());
-                    homesInsertStatement.setDouble(5, homeLoc.getY());
-                    homesInsertStatement.setDouble(6, homeLoc.getZ());
-                    homesInsertStatement.setFloat(7, homeLoc.getYaw());
-                    homesInsertStatement.setFloat(8, homeLoc.getPitch());
-                    homesInsertStatement.executeUpdate();
-                    dataSource.close(homesInsertConnection, homesInsertStatement, null);
-                }
-
-                Location lastLoc = corePlayer.getLastLoc();
-                Location deathLoc = corePlayer.getDeathLoc();
-                Connection locationsReplaceConnection = dataSource.getConnection();
-                PreparedStatement locationsReplaceStatement = locationsReplaceConnection.prepareStatement(
-                        "REPLACE INTO servercore_locations VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)"
-                );
-                locationsReplaceStatement.setString(1, uuid.toString());
-                if (lastLoc != null && lastLoc.getWorld() != null){
-                    locationsReplaceStatement.setString(2, lastLoc.getWorld().getName());
-                    locationsReplaceStatement.setDouble(3, lastLoc.getX());
-                    locationsReplaceStatement.setDouble(4, lastLoc.getY());
-                    locationsReplaceStatement.setDouble(5, lastLoc.getZ());
-                    locationsReplaceStatement.setFloat(6, lastLoc.getYaw());
-                    locationsReplaceStatement.setFloat(7, lastLoc.getPitch());
-                }else{
-                    locationsReplaceStatement.setString(2, "");
-                    locationsReplaceStatement.setDouble(3, 0);
-                    locationsReplaceStatement.setDouble(4, 0);
-                    locationsReplaceStatement.setDouble(5, 0);
-                    locationsReplaceStatement.setFloat(6, 0);
-                    locationsReplaceStatement.setFloat(7, 0);
-                }
-
-                if (deathLoc != null && deathLoc.getWorld() != null){
-                    locationsReplaceStatement.setString(8, deathLoc.getWorld().getName());
-                    locationsReplaceStatement.setDouble(9, deathLoc.getX());
-                    locationsReplaceStatement.setDouble(10, deathLoc.getY());
-                    locationsReplaceStatement.setDouble(11, deathLoc.getZ());
-                    locationsReplaceStatement.setFloat(12, deathLoc.getYaw());
-                    locationsReplaceStatement.setFloat(13, deathLoc.getPitch());
-                }else{
-                    locationsReplaceStatement.setString(8, "");
-                    locationsReplaceStatement.setDouble(9, 0);
-                    locationsReplaceStatement.setDouble(10, 0);
-                    locationsReplaceStatement.setDouble(11, 0);
-                    locationsReplaceStatement.setFloat(12, 0);
-                    locationsReplaceStatement.setFloat(13, 0);
-                }
-                locationsReplaceStatement.executeUpdate();
-                dataSource.close(locationsReplaceConnection, locationsReplaceStatement, null);
-
-                boolean spy = corePlayer.isSpy();
-                Connection playersReplaceConnection = dataSource.getConnection();
-                PreparedStatement playersReplaceStatement = playersReplaceConnection.prepareStatement(
-                        "REPLACE INTO servercore_players VALUES (?,?)"
-                );
-                playersReplaceStatement.setString(1, uuid.toString());
-                playersReplaceStatement.setBoolean(2, spy);
-                dataSource.close(playersReplaceConnection, playersReplaceStatement, null);
-
-                Connection tpaBlockedDelete = dataSource.getConnection();
-                PreparedStatement tpaBlockedDeleteStatement = tpaBlockedDelete.prepareStatement(
-                        "DELETE FROM servercore_tpaBlocked WHERE uuid=?"
-                );
-                tpaBlockedDeleteStatement.setString(1, uuid.toString());
-                tpaBlockedDeleteStatement.executeUpdate();
-                dataSource.close(tpaBlockedDelete, tpaBlockedDeleteStatement, null);
-
-                List<String> tpaBlocked = corePlayer.getTpaBlocked();
-                for (String blocked : tpaBlocked){
-                    Connection tpaBlockedConnection = dataSource.getConnection();
-                    PreparedStatement tpaBlockedStatement = tpaBlockedConnection.prepareStatement(
-                            "INSERT INTO servercore_tpaBlocked VALUES (?,?)"
-                    );
-                    tpaBlockedStatement.setString(1, uuid.toString());
-                    tpaBlockedStatement.setString(2, blocked);
-                    tpaBlockedStatement.executeUpdate();
-                    dataSource.close(tpaBlockedConnection, tpaBlockedStatement, null);
-                }
-            }catch (SQLException e){
-                e.printStackTrace();
-            }
-        });
-    }
-
-    public void savePlayerSync(UUID uuid){
+    public void savePlayer(CorePlayer corePlayer){
         try {
-            CorePlayer corePlayer = ServerCore.getPlayerManager().getCorePlayer(uuid);
-
+            UUID uuid = corePlayer.getUuid();
             Connection homesDeleteConnection = dataSource.getConnection();
             PreparedStatement homesDeleteStatement = homesDeleteConnection.prepareStatement(
                     "DELETE FROM servercore_homes WHERE uuid=?"
@@ -337,12 +140,7 @@ public class QueryManager {
             );
             locationsReplaceStatement.setString(1, uuid.toString());
             if (lastLoc != null && lastLoc.getWorld() != null){
-                locationsReplaceStatement.setString(2, lastLoc.getWorld().getName());
-                locationsReplaceStatement.setDouble(3, lastLoc.getX());
-                locationsReplaceStatement.setDouble(4, lastLoc.getY());
-                locationsReplaceStatement.setDouble(5, lastLoc.getZ());
-                locationsReplaceStatement.setFloat(6, lastLoc.getYaw());
-                locationsReplaceStatement.setFloat(7, lastLoc.getPitch());
+                saveLoc(lastLoc, locationsReplaceStatement);
             }else{
                 locationsReplaceStatement.setString(2, "");
                 locationsReplaceStatement.setDouble(3, 0);
@@ -403,10 +201,9 @@ public class QueryManager {
         }
     }
 
-    public void loadWarpsSync(){
+    public HashMap<String, Location> loadWarps(){
+        HashMap<String, Location> warps = new HashMap<>();
         try {
-            HashMap<String, Location> warps = new HashMap<>();
-
             Connection connection = dataSource.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "SELECT * FROM servercore_warps"
@@ -423,13 +220,13 @@ public class QueryManager {
                 ));
             }
             dataSource.close(connection, preparedStatement, results);
-            ServerCore.getWarpManager().setWarps(warps);
         }catch (SQLException e){
             e.printStackTrace();
         }
+        return warps;
     }
 
-    public void saveWarpsSync(){
+    public void saveWarps(HashMap<String, Location> warps){
         try {
             Connection delete = dataSource.getConnection();
             PreparedStatement deleteStatement = delete.prepareStatement(
@@ -437,8 +234,6 @@ public class QueryManager {
             );
             deleteStatement.executeUpdate();
             dataSource.close(delete, deleteStatement, null);
-
-            HashMap<String, Location> warps = ServerCore.getWarpManager().getWarps();
 
             for (Map.Entry<String, Location> entry : warps.entrySet()){
                 Location location = entry.getValue();
@@ -448,18 +243,22 @@ public class QueryManager {
                         "INSERT INTO servercore_warps VALUES (?,?,?,?,?,?,?)"
                 );
                 preparedStatement.setString(1, entry.getKey());
-                preparedStatement.setString(2, location.getWorld().getName());
-                preparedStatement.setDouble(3, location.getX());
-                preparedStatement.setDouble(4, location.getY());
-                preparedStatement.setDouble(5, location.getZ());
-                preparedStatement.setFloat(6, location.getYaw());
-                preparedStatement.setFloat(7, location.getPitch());
+                saveLoc(location, preparedStatement);
                 preparedStatement.executeUpdate();
                 dataSource.close(connection, preparedStatement, null);
             }
         }catch (SQLException e){
             e.printStackTrace();
         }
+    }
+
+    private void saveLoc(Location location, PreparedStatement preparedStatement) throws SQLException {
+        preparedStatement.setString(2, location.getWorld().getName());
+        preparedStatement.setDouble(3, location.getX());
+        preparedStatement.setDouble(4, location.getY());
+        preparedStatement.setDouble(5, location.getZ());
+        preparedStatement.setFloat(6, location.getYaw());
+        preparedStatement.setFloat(7, location.getPitch());
     }
 
     public void setupTables(){

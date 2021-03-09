@@ -1,5 +1,6 @@
 package me.pljr.servercore.menus;
 
+import lombok.Getter;
 import me.pljr.pljrapispigot.builders.GUIBuilder;
 import me.pljr.pljrapispigot.objects.GUI;
 import me.pljr.pljrapispigot.objects.GUIItem;
@@ -13,18 +14,16 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
+@Getter
 public class BackMenu {
 
-    public static GUI get(Player player){
+    private final GUI gui;
+
+    public BackMenu(Player player, CorePlayer corePlayer){
         GUIBuilder guiBuilder = new GUIBuilder(Lang.BACK_MENU_TITLE.get(), 3);
         for (int i = 0;i<27;i++){
             guiBuilder.setItem(i, MenuItem.BACK_BACKGROUND.get());
         }
-
-        UUID playerId = player.getUniqueId();
-
-        PlayerManager playerManager = ServerCore.getPlayerManager();
-        CorePlayer corePlayer = playerManager.getCorePlayer(playerId);
 
         if (player.hasPermission("servercore.back.use")){
             guiBuilder.setItem(12, new GUIItem(MenuItem.BACK_LAST_LOCATION.get(),
@@ -40,6 +39,6 @@ public class BackMenu {
                         PlayerUtil.teleport(player, corePlayer.getDeathLoc());
                     }));
         }
-        return guiBuilder.create();
+        gui = guiBuilder.create();
     }
 }

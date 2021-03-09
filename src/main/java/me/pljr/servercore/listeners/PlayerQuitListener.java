@@ -1,5 +1,6 @@
 package me.pljr.servercore.listeners;
 
+import lombok.AllArgsConstructor;
 import me.pljr.servercore.ServerCore;
 import me.pljr.servercore.managers.PlayerManager;
 import org.bukkit.entity.Player;
@@ -9,14 +10,16 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.UUID;
 
+@AllArgsConstructor
 public class PlayerQuitListener implements Listener {
+
+    private final PlayerManager playerManager;
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event){
         Player player = event.getPlayer();
         UUID playerId = player.getUniqueId();
 
-        PlayerManager playerManager = ServerCore.getPlayerManager();
         playerManager.savePlayer(playerId);
     }
 }

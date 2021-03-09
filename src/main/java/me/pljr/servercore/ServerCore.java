@@ -3,6 +3,15 @@ package me.pljr.servercore;
 import me.pljr.pljrapispigot.database.DataSource;
 import me.pljr.pljrapispigot.managers.ConfigManager;
 import me.pljr.servercore.commands.*;
+import me.pljr.servercore.commands.gamemodecommands.*;
+import me.pljr.servercore.commands.homecommands.*;
+import me.pljr.servercore.commands.itemcommands.*;
+import me.pljr.servercore.commands.movementcommands.FSpeedCommand;
+import me.pljr.servercore.commands.movementcommands.FlyCommand;
+import me.pljr.servercore.commands.movementcommands.WSpeedCommand;
+import me.pljr.servercore.commands.teleportcommands.*;
+import me.pljr.servercore.commands.warpcommands.*;
+import me.pljr.servercore.commands.worldcommands.*;
 import me.pljr.servercore.config.*;
 import me.pljr.servercore.listeners.*;
 import me.pljr.servercore.managers.PlayerManager;
@@ -17,25 +26,25 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class ServerCore extends JavaPlugin {
-    private static ServerCore instance;
-    private static PlayerManager playerManager;
-    private static QueryManager queryManager;
-    private static WarpManager warpManager;
-    private static SpawnManager spawnManager;
+    private PlayerManager playerManager;
+    private QueryManager queryManager;
+    private WarpManager warpManager;
+    private SpawnManager spawnManager;
 
     // Files
-    private static ConfigManager configManager;
-    private static ConfigManager databaseFileManager;
-    private static ConfigManager langManager;
-    private static ConfigManager menuFileManager;
+    private ConfigManager configManager;
+    private ConfigManager databaseFileManager;
+    private ConfigManager langManager;
+    private ConfigManager menuFileManager;
+
+    private Settings settings;
 
     @Override
     public void onEnable() {
         // Plugin startup logic
-        instance = this;
         setupConfig();
-        setupManagers();
         setupDatabase();
+        setupManagers();
         setupListeners();
         setupComands();
     }
@@ -47,21 +56,20 @@ public final class ServerCore extends JavaPlugin {
         databaseFileManager = new ConfigManager(this, "database.yml");
         langManager = new ConfigManager(this, "lang.yml");
         menuFileManager = new ConfigManager(this, "menus.yml");
-        CfgSettings.load(configManager);
+        settings = new Settings(configManager);
         Lang.load(langManager);
         MenuItem.load(menuFileManager);
     }
 
     private void setupManagers(){
-        playerManager = new PlayerManager();
+        playerManager = new PlayerManager(this, queryManager);
         warpManager = new WarpManager();
-        spawnManager = new SpawnManager();
         if (databaseFileManager.getConfig().isSet("spawnLocation")){
             World world = Bukkit.getWorld(databaseFileManager.getString("spawnLocation.world"));
             if (world == null){
-                spawnManager.setLocation(null);
+                spawnManager = new SpawnManager(databaseFileManager, null);
             }else {
-                spawnManager.setLocation(new Location(
+                spawnManager = new SpawnManager(databaseFileManager, new Location(
                         Bukkit.getWorld(databaseFileManager.getString("spawnLocation.world")),
                         databaseFileManager.getDouble("spawnLocation.x"),
                         databaseFileManager.getDouble("spawnLocation.y"),
@@ -73,35 +81,34 @@ public final class ServerCore extends JavaPlugin {
     }
 
     private void setupDatabase(){
-        queryManager = new QueryManager(this, DataSource.getFromConfig(configManager));
+        queryManager = new QueryManager(DataSource.getFromConfig(configManager));
         queryManager.setupTables();
-        queryManager.loadWarpsSync();
         for (Player player : Bukkit.getOnlinePlayers()){
-            queryManager.loadPlayer(player.getUniqueId());
+            Bukkit.getScheduler().runTaskAsynchronously(this, () -> queryManager.loadPlayer(player.getUniqueId()));
         }
     }
 
     private void setupListeners(){
         PluginManager pluginManager = getServer().getPluginManager();
-        pluginManager.registerEvents(new AsyncPlayerPreLoginListener(), this);
-        pluginManager.registerEvents(new PlayerDeathListener(), this);
-        pluginManager.registerEvents(new PlayerJoinListener(), this);
-        pluginManager.registerEvents(new PlayerTeleportListener(), this);
-        pluginManager.registerEvents(new PlayerQuitListener(), this);
-        pluginManager.registerEvents(new PlayerRespawnListener(), this);
-        pluginManager.registerEvents(new PlayerCommandPreprocessListener(), this);
+        pluginManager.registerEvents(new AsyncPlayerPreLoginListener(queryManager), this);
+        pluginManager.registerEvents(new PlayerDeathListener(playerManager), this);
+        pluginManager.registerEvents(new PlayerJoinListener(settings, playerManager, spawnManager), this);
+        pluginManager.registerEvents(new PlayerTeleportListener(playerManager), this);
+        pluginManager.registerEvents(new PlayerQuitListener(playerManager), this);
+        pluginManager.registerEvents(new PlayerRespawnListener(spawnManager), this);
+        pluginManager.registerEvents(new PlayerCommandPreprocessListener(this, playerManager), this);
     }
 
     private void setupComands(){
-        new ADelhomeCommand().registerCommand(this);
-        new AHomeCommand().registerCommand(this);
-        new AHomesCommand().registerCommand(this);
-        new ASethomeCommand().registerCommand(this);
-        new BackCommand().registerCommand(this);
+        new ADelhomeCommand(playerManager).registerCommand(this);
+        new AHomeCommand(playerManager).registerCommand(this);
+        new AHomesCommand(playerManager).registerCommand(this);
+        new ASethomeCommand(playerManager).registerCommand(this);
+        new BackCommand(playerManager).registerCommand(this);
         new CiCommand().registerCommand(this);
-        new DayCommand().registerCommand(this);
-        new DelhomeCommand().registerCommand(this);
-        new DelwarpCommand().registerCommand(this);
+        new DayCommand(settings).registerCommand(this);
+        new DelhomeCommand(playerManager).registerCommand(this);
+        new DelwarpCommand(warpManager).registerCommand(this);
         new FlyCommand().registerCommand(this);
         new FSpeedCommand().registerCommand(this);
         new GamemodeCommand().registerCommand(this);
@@ -109,61 +116,42 @@ public final class ServerCore extends JavaPlugin {
         new GMCCommand().registerCommand(this);
         new GMSCommand().registerCommand(this);
         new GMSPCommand().registerCommand(this);
-        new HomeCommand().registerCommand(this);
-        new HomesCommand().registerCommand(this);
+        new HomeCommand(playerManager).registerCommand(this);
+        new HomesCommand(playerManager).registerCommand(this);
         new ICommand().registerCommand(this);
-        new NightCommand().registerCommand(this);
-        new RainCommand().registerCommand(this);
+        new NightCommand(settings).registerCommand(this);
+        new RainCommand(settings).registerCommand(this);
         new ReloreCommand().registerCommand(this);
         new RenameCommand().registerCommand(this);
-        new SethomeCommand().registerCommand(this);
-        new SetwarpCommand().registerCommand(this);
+        new SethomeCommand(playerManager).registerCommand(this);
+        new SetwarpCommand(warpManager).registerCommand(this);
         new SkullCommand().registerCommand(this);
-        new SunCommand().registerCommand(this);
-        new ThunderCommand().registerCommand(this);
+        new SunCommand(settings).registerCommand(this);
+        new ThunderCommand(settings).registerCommand(this);
         new TopBlockCommand().registerCommand(this);
-        new TpacceptCommand().registerCommand(this);
-        new TpaCommand().registerCommand(this);
+        new TpacceptCommand(playerManager).registerCommand(this);
+        new TpaCommand(playerManager).registerCommand(this);
         new TPCommand().registerCommand(this);
-        new TpdenyCommand().registerCommand(this);
+        new TpdenyCommand(playerManager).registerCommand(this);
         new TPHereCommand().registerCommand(this);
-        new TpignoreCommand().registerCommand(this);
-        new WarpCommand().registerCommand(this);
-        new WarpsCommand().registerCommand(this);
+        new TpignoreCommand(playerManager).registerCommand(this);
+        new WarpCommand(warpManager).registerCommand(this);
+        new WarpsCommand(settings, warpManager).registerCommand(this);
         new WSpeedCommand().registerCommand(this);
-        new SpawnCommand().registerCommand(this);
-        new ASpawnCommand().registerCommand(this);
-        new SetspawnCommand().registerCommand(this);
-        new ServerCoreCommand().registerCommand(this);
-        new AWarpCommand().registerCommand(this);
-    }
-
-    public static ServerCore getInstance() {
-        return instance;
-    }
-    public static PlayerManager getPlayerManager() {
-        return playerManager;
-    }
-    public static QueryManager getQueryManager() {
-        return queryManager;
-    }
-    public static WarpManager getWarpManager() {
-        return warpManager;
-    }
-    public static SpawnManager getSpawnManager() {
-        return spawnManager;
-    }
-    public static ConfigManager getDatabaseFileManager() {
-        return databaseFileManager;
+        new SpawnCommand(spawnManager).registerCommand(this);
+        new ASpawnCommand(spawnManager).registerCommand(this);
+        new SetspawnCommand(spawnManager).registerCommand(this);
+        new ServerCoreCommand(this, playerManager).registerCommand(this);
+        new AWarpCommand(warpManager).registerCommand(this);
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
         spawnManager.saveToFile();
-        queryManager.saveWarpsSync();
+        queryManager.saveWarps(warpManager.getWarps());
         for (Player player : Bukkit.getOnlinePlayers()){
-            queryManager.savePlayerSync(player.getUniqueId());
+            playerManager.getCorePlayer(player.getUniqueId(), queryManager::savePlayer);
         }
     }
 }

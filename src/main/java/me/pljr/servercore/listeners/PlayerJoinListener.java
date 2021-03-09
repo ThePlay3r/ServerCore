@@ -1,8 +1,10 @@
 package me.pljr.servercore.listeners;
 
+import lombok.AllArgsConstructor;
 import me.pljr.pljrapispigot.utils.PlayerUtil;
 import me.pljr.servercore.ServerCore;
-import me.pljr.servercore.config.CfgSettings;
+import me.pljr.servercore.config.Settings;
+import me.pljr.servercore.managers.PlayerManager;
 import me.pljr.servercore.managers.SpawnManager;
 import me.pljr.servercore.objects.CorePlayer;
 import org.bukkit.Location;
@@ -14,25 +16,29 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.UUID;
 
+@AllArgsConstructor
 public class PlayerJoinListener implements Listener {
+
+    private final Settings settings;
+    private final PlayerManager playerManager;
+    private final SpawnManager spawnManager;
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
         UUID playerId = player.getUniqueId();
 
-        CorePlayer corePlayer = ServerCore.getPlayerManager().getCorePlayer(playerId);
+        playerManager.getCorePlayer(playerId, corePlayer -> {
+            Location spawn = spawnManager.getLocation();
 
-        SpawnManager spawnManager = ServerCore.getSpawnManager();
-        Location spawn = spawnManager.getLocation();
-
-        if (spawn != null){
-            if (corePlayer.getDeathLoc() == null){
-                corePlayer.setDeathLoc(player.getLocation());
+            if (spawn != null){
+                if (corePlayer.getDeathLoc() == null){
+                    corePlayer.setDeathLoc(player.getLocation());
+                }
+                if (!player.hasPlayedBefore() || settings.isAlwaysSpawnOnSpawn()){
+                    player.teleport(spawn);
+                }
             }
-            if (!player.hasPlayedBefore() || CfgSettings.ALWAYS_SPAWN_ON_SPAWN){
-                PlayerUtil.teleport(player, spawn);
-            }
-        }
+        });
     }
 }
