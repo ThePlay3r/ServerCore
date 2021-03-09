@@ -1,12 +1,9 @@
 package me.pljr.servercore.listeners;
 
 import lombok.AllArgsConstructor;
-import me.pljr.pljrapispigot.utils.PlayerUtil;
-import me.pljr.servercore.ServerCore;
 import me.pljr.servercore.config.Settings;
 import me.pljr.servercore.managers.PlayerManager;
 import me.pljr.servercore.managers.SpawnManager;
-import me.pljr.servercore.objects.CorePlayer;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

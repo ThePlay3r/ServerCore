@@ -2,18 +2,15 @@ package me.pljr.servercore.managers;
 
 import lombok.AllArgsConstructor;
 import me.pljr.pljrapispigot.database.DataSource;
-import me.pljr.servercore.ServerCore;
 import me.pljr.servercore.objects.CorePlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.plugin.Plugin;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.function.Consumer;
 
 @AllArgsConstructor
 public class QueryManager {

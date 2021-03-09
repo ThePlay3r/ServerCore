@@ -1,7 +1,6 @@
 package me.pljr.servercore.listeners;
 
 import lombok.AllArgsConstructor;
-import me.pljr.servercore.ServerCore;
 import me.pljr.servercore.managers.SpawnManager;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;

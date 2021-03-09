@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import me.pljr.pljrapispigot.managers.ConfigManager;
-import me.pljr.servercore.ServerCore;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 

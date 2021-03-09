@@ -5,7 +5,6 @@ import me.pljr.pljrapispigot.builders.GUIBuilder;
 import me.pljr.pljrapispigot.builders.ItemBuilder;
 import me.pljr.pljrapispigot.objects.GUI;
 import me.pljr.pljrapispigot.objects.GUIItem;
-import me.pljr.servercore.ServerCore;
 import me.pljr.servercore.config.Lang;
 import me.pljr.servercore.config.MenuItem;
 import me.pljr.servercore.managers.WarpManager;

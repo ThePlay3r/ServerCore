@@ -1,7 +1,6 @@
 package me.pljr.servercore.managers;
 
 import lombok.AllArgsConstructor;
-import me.pljr.servercore.ServerCore;
 import me.pljr.servercore.objects.CorePlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

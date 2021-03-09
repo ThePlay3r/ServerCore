@@ -1,8 +1,8 @@
 package me.pljr.servercore.commands.worldcommands;
 
 import me.pljr.pljrapispigot.utils.CommandUtil;
-import me.pljr.servercore.config.Settings;
 import me.pljr.servercore.config.Lang;
+import me.pljr.servercore.config.Settings;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.ConsoleCommandSender;
