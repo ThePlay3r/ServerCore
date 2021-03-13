@@ -1,59 +1,74 @@
 package me.pljr.servercore.managers;
 
 import lombok.AllArgsConstructor;
-import me.pljr.servercore.objects.CorePlayer;
+import lombok.Builder;
+import me.pljr.servercore.ServerCore;
+import me.pljr.servercore.objects.SCorePlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
 
 @AllArgsConstructor
+@Builder()
 public class PlayerManager {
+    private final static int AUTOSAVE = 12000;
 
-    private final HashMap<UUID, CorePlayer> players = new HashMap<>();
+    private final HashMap<UUID, SCorePlayer> players = new HashMap<>();
     private final JavaPlugin plugin;
     private final QueryManager queryManager;
+    private final boolean cachePlayers;
 
-    public void getCorePlayer(UUID uuid, Consumer<CorePlayer> consumer){
+    public void getCorePlayer(UUID uuid, Consumer<SCorePlayer> consumer){
         if (!players.containsKey(uuid)){
             Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-                CorePlayer corePlayer = queryManager.loadPlayer(uuid);
-                setCorePlayer(uuid, corePlayer);
-                consumer.accept(corePlayer);
+                SCorePlayer scorePlayer = queryManager.loadPlayer(uuid);
+                setCorePlayer(uuid, scorePlayer);
+                consumer.accept(scorePlayer);
             });
         }else{
             consumer.accept(players.get(uuid));
         }
     }
 
-    public void setCorePlayer(UUID uuid, CorePlayer corePlayer){
-        players.put(uuid, corePlayer);
-        savePlayer(uuid);
+    public void setCorePlayer(UUID uuid, SCorePlayer scorePlayer){
+        players.put(uuid, scorePlayer);
     }
 
     public void savePlayer(UUID uuid){
-        if (!players.containsKey(uuid)) return;
+        if (!cachePlayers) players.remove(uuid);
         queryManager.savePlayer(players.get(uuid));
+    }
+
+    public void initAutoSave(){
+        Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
+            ServerCore.log.info("Saving players..");
+            for (Map.Entry<UUID, SCorePlayer> entry : players.entrySet()){
+                savePlayer(entry.getKey());
+            }
+            ServerCore.log.info("All players were saved.");
+        }, AUTOSAVE, AUTOSAVE);
     }
 
     public void setHome(OfflinePlayer player, String name, Location location){
         UUID uuid = player.getUniqueId();
-        CorePlayer corePlayer = players.get(uuid);
-        corePlayer.getHomes().put(name, location);
-        players.put(uuid, corePlayer);
+        SCorePlayer scorePlayer = players.get(uuid);
+        scorePlayer.getHomes().put(name, location);
+        players.put(uuid, scorePlayer);
     }
 
     public boolean delHome(OfflinePlayer player, String name){
         UUID uuid = player.getUniqueId();
-        CorePlayer corePlayer = players.get(uuid);
-        HashMap<String, Location> playerHomes = corePlayer.getHomes();
+        SCorePlayer scorePlayer = players.get(uuid);
+        HashMap<String, Location> playerHomes = scorePlayer.getHomes();
         if (playerHomes.containsKey(name)){
             playerHomes.remove(name);
-            players.put(uuid, corePlayer);
+            players.put(uuid, scorePlayer);
             return true;
         }
         return false;

@@ -10,21 +10,21 @@ import java.util.HashMap;
 
 public enum MenuItem {
     // Back Menu
-    BACK_BACKGROUND(new ItemBuilder(XMaterial.BLACK_STAINED_GLASS_PANE).withName("§0").create()),
+    BACK_BACKGROUND(new ItemBuilder(XMaterial.BLACK_STAINED_GLASS_PANE).withName("&0").create()),
     BACK_LAST_LOCATION(new ItemBuilder(XMaterial.GLOWSTONE_DUST)
-            .withName("§eLast location")
-            .withLore("§fClick to teleport to your last location.")
+            .withName("&eLast location")
+            .withLore("&fClick to teleport to your last location.")
             .create()),
     BACK_DEATH_LOCATION(new ItemBuilder(XMaterial.GLOWSTONE_DUST)
-            .withName("§cDeath location")
-            .withLore("§fClick to teleport to your death location.")
+            .withName("&cDeath location")
+            .withLore("&fClick to teleport to your death location.")
             .create()),
 
     // Warp Menu
-    WARP_BACKGROUND(new ItemBuilder(XMaterial.BLACK_STAINED_GLASS_PANE).withName("§0").create()),
+    WARP_BACKGROUND(new ItemBuilder(XMaterial.BLACK_STAINED_GLASS_PANE).withName("&0").create()),
     WARP_ITEM(new ItemBuilder(XMaterial.PAPER)
-            .withName("§e{warp}")
-            .withLore("§fClick to be teleported to", "§e{warp}§f.")
+            .withName("&e{warp}")
+            .withLore("&fClick to be teleported to", "&e{warp}&f.")
             .create());
 
     private static HashMap<MenuItem, ItemStack> menuItem;

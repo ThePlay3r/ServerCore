@@ -7,7 +7,7 @@ import me.pljr.pljrapispigot.objects.GUIItem;
 import me.pljr.pljrapispigot.utils.PlayerUtil;
 import me.pljr.servercore.config.Lang;
 import me.pljr.servercore.config.MenuItem;
-import me.pljr.servercore.objects.CorePlayer;
+import me.pljr.servercore.objects.SCorePlayer;
 import org.bukkit.entity.Player;
 
 @Getter
@@ -15,7 +15,7 @@ public class BackMenu {
 
     private final GUI gui;
 
-    public BackMenu(Player player, CorePlayer corePlayer){
+    public BackMenu(Player player, SCorePlayer scorePlayer){
         GUIBuilder guiBuilder = new GUIBuilder(Lang.BACK_MENU_TITLE.get(), 3);
         for (int i = 0;i<27;i++){
             guiBuilder.setItem(i, MenuItem.BACK_BACKGROUND.get());
@@ -25,14 +25,14 @@ public class BackMenu {
             guiBuilder.setItem(12, new GUIItem(MenuItem.BACK_LAST_LOCATION.get(),
                     run -> {
                         player.closeInventory();
-                        PlayerUtil.teleport(player, corePlayer.getLastLoc());
+                        PlayerUtil.teleport(player, scorePlayer.getLastLoc());
                     }));
         }
         if (player.hasPermission("servercore.back.use.death")){
             guiBuilder.setItem(14, new GUIItem(MenuItem.BACK_DEATH_LOCATION.get(),
                     run -> {
                         player.closeInventory();
-                        PlayerUtil.teleport(player, corePlayer.getDeathLoc());
+                        PlayerUtil.teleport(player, scorePlayer.getDeathLoc());
                     }));
         }
         gui = guiBuilder.create();

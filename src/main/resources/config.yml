@@ -26,6 +26,7 @@ mysql:
 ################## Here, you can enable or disable functions of this plugin. # \
                  #############################################################  \
 settings:
+  cache-players: true # Should we save player data in memory? (false = loading on each join)
   always-spawn-on-spawn: false #-> Should we teleport players to spawn on every connection?
   warp-gui: true #-> Should we use the GUI for warp list? (false = Warps in chat)
   default-world: "world" #-> What is the default world to use when using commands from console?

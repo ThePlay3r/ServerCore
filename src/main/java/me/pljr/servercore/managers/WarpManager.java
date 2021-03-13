@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 public class WarpManager {
-    private HashMap<String, Location> warps;
+    private final HashMap<String, Location> warps;
 
-    public WarpManager(){
-        this.warps = new HashMap<>();
+    public WarpManager(QueryManager queryManager){
+        this.warps = queryManager.loadWarps();
     }
 
     public void setWarp(String name, Location location){
@@ -36,10 +36,6 @@ public class WarpManager {
 
     public Location getWarp(String warpName){
         return this.warps.get(warpName);
-    }
-
-    public void setWarps(HashMap<String, Location> warps) {
-        this.warps = warps;
     }
 
     public HashMap<String, Location> getWarps() {

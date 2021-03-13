@@ -27,7 +27,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.logging.Logger;
+
 public final class ServerCore extends JavaPlugin {
+
+    public static Logger log;
+
     private PlayerManager playerManager;
     private QueryManager queryManager;
     private WarpManager warpManager;
@@ -44,6 +49,7 @@ public final class ServerCore extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
+        log = this.getLogger();
         setupConfig();
         setupDatabase();
         setupManagers();
@@ -64,8 +70,9 @@ public final class ServerCore extends JavaPlugin {
     }
 
     private void setupManagers(){
-        playerManager = new PlayerManager(this, queryManager);
-        warpManager = new WarpManager();
+        playerManager = new PlayerManager(this, queryManager, settings.isCachePlayers());
+        playerManager.initAutoSave();
+        warpManager = new WarpManager(queryManager);
         if (databaseFileManager.getConfig().isSet("spawnLocation")){
             World world = Bukkit.getWorld(databaseFileManager.getString("spawnLocation.world"));
             if (world == null){
@@ -79,6 +86,8 @@ public final class ServerCore extends JavaPlugin {
                         (float)databaseFileManager.getDouble("spawnLocation.yaw"),
                         (float)databaseFileManager.getDouble("spawnLocation.pitch")));
             }
+        }else{
+            spawnManager = new SpawnManager(databaseFileManager, null);
         }
     }
 
@@ -92,7 +101,7 @@ public final class ServerCore extends JavaPlugin {
 
     private void setupListeners(){
         PluginManager pluginManager = getServer().getPluginManager();
-        pluginManager.registerEvents(new AsyncPlayerPreLoginListener(queryManager), this);
+        pluginManager.registerEvents(new AsyncPlayerPreLoginListener(playerManager), this);
         pluginManager.registerEvents(new PlayerDeathListener(playerManager), this);
         pluginManager.registerEvents(new PlayerJoinListener(settings, playerManager, spawnManager), this);
         pluginManager.registerEvents(new PlayerTeleportListener(playerManager), this);
@@ -145,6 +154,7 @@ public final class ServerCore extends JavaPlugin {
         new SetspawnCommand(spawnManager).registerCommand(this);
         new ServerCoreCommand(this, playerManager).registerCommand(this);
         new AWarpCommand(warpManager).registerCommand(this);
+        new TpAllCommand().registerCommand(this);
     }
 
     @Override

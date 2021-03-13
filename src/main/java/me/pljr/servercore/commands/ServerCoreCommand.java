@@ -44,7 +44,7 @@ public class ServerCoreCommand extends CommandUtil implements CommandExecutor {
                 if (args[0].equalsIgnoreCase("reload")){
                     if (!checkPerm(player, "servercore.servercore.use.reload")) return;
                     serverCore.setupConfig();
-                    player.sendMessage("§a§l✔ Reloaded");
+                    player.sendMessage("&a&l✔ Reloaded");
                     return;
                 }
             }

@@ -2,7 +2,7 @@ package me.pljr.servercore.managers;
 
 import lombok.AllArgsConstructor;
 import me.pljr.pljrapispigot.database.DataSource;
-import me.pljr.servercore.objects.CorePlayer;
+import me.pljr.servercore.objects.SCorePlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
@@ -16,7 +16,7 @@ import java.util.*;
 public class QueryManager {
     private final DataSource dataSource;
 
-    public CorePlayer loadPlayer(UUID uuid){
+    public SCorePlayer loadPlayer(UUID uuid){
         Location lastLoc = null;
         Location deathLoc = null;
         HashMap<String, Location> homes = new HashMap<>();
@@ -96,12 +96,12 @@ public class QueryManager {
         }catch (SQLException e){
             e.printStackTrace();
         }
-        return new CorePlayer(uuid, lastLoc, deathLoc, homes, spy, null, tpaBlocked);
+        return new SCorePlayer(uuid, lastLoc, deathLoc, homes, spy, null, tpaBlocked);
     }
 
-    public void savePlayer(CorePlayer corePlayer){
+    public void savePlayer(SCorePlayer scorePlayer){
         try {
-            UUID uuid = corePlayer.getUuid();
+            UUID uuid = scorePlayer.getUuid();
             Connection homesDeleteConnection = dataSource.getConnection();
             PreparedStatement homesDeleteStatement = homesDeleteConnection.prepareStatement(
                     "DELETE FROM servercore_homes WHERE uuid=?"
@@ -110,7 +110,7 @@ public class QueryManager {
             homesDeleteStatement.executeUpdate();
             dataSource.close(homesDeleteConnection, homesDeleteStatement, null);
 
-            for (Map.Entry<String, Location> entry : corePlayer.getHomes().entrySet()){
+            for (Map.Entry<String, Location> entry : scorePlayer.getHomes().entrySet()){
                 Location homeLoc = entry.getValue();
 
                 Connection homesInsertConnection = dataSource.getConnection();
@@ -129,8 +129,8 @@ public class QueryManager {
                 dataSource.close(homesInsertConnection, homesInsertStatement, null);
             }
 
-            Location lastLoc = corePlayer.getLastLoc();
-            Location deathLoc = corePlayer.getDeathLoc();
+            Location lastLoc = scorePlayer.getLastLoc();
+            Location deathLoc = scorePlayer.getDeathLoc();
             Connection locationsReplaceConnection = dataSource.getConnection();
             PreparedStatement locationsReplaceStatement = locationsReplaceConnection.prepareStatement(
                     "REPLACE INTO servercore_locations VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)"
@@ -165,7 +165,7 @@ public class QueryManager {
             locationsReplaceStatement.executeUpdate();
             dataSource.close(locationsReplaceConnection, locationsReplaceStatement, null);
 
-            boolean spy = corePlayer.isSpy();
+            boolean spy = scorePlayer.isSpy();
             Connection playersReplaceConnection = dataSource.getConnection();
             PreparedStatement playersReplaceStatement = playersReplaceConnection.prepareStatement(
                     "REPLACE INTO servercore_players VALUES (?,?)"
@@ -182,7 +182,7 @@ public class QueryManager {
             tpaBlockedDeleteStatement.executeUpdate();
             dataSource.close(tpaBlockedDelete, tpaBlockedDeleteStatement, null);
 
-            List<String> tpaBlocked = corePlayer.getTpaBlocked();
+            List<String> tpaBlocked = scorePlayer.getTpaBlocked();
             for (String blocked : tpaBlocked){
                 Connection tpaBlockedConnection = dataSource.getConnection();
                 PreparedStatement tpaBlockedStatement = tpaBlockedConnection.prepareStatement(

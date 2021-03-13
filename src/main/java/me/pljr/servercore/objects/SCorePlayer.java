@@ -13,7 +13,7 @@ import java.util.UUID;
 @Setter
 @Getter
 @AllArgsConstructor
-public class CorePlayer {
+public class SCorePlayer {
     private UUID uuid;
     private Location lastLoc;
     private Location deathLoc;

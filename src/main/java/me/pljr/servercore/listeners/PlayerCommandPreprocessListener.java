@@ -28,7 +28,7 @@ public class PlayerCommandPreprocessListener implements Listener {
                 UUID pID = p.getUniqueId();
                 playerManager.getCorePlayer(pID, pCore -> {
                     if (pCore.isSpy()){
-                        p.sendMessage("§c" + playerName + " §8> §c" + message);
+                        p.sendMessage("&c" + playerName + " &8> &c" + message);
                     }
                 });
             }

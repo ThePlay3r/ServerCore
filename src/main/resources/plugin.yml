@@ -92,3 +92,5 @@ commands:
     description: Main command for ServerCore plugin.
   awarp:
     description: Admin command for teleporting to warps.
+  tpall:
+    description: Admin command for teleporting all players.
