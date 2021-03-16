@@ -1,13 +1,13 @@
 package me.pljr.servercore.commands.teleportcommands;
 
-import me.pljr.pljrapispigot.utils.CommandUtil;
+import me.pljr.pljrapispigot.commands.BukkitCommand;
 import me.pljr.servercore.config.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
-public class TPCommand extends CommandUtil {
+public class TPCommand extends BukkitCommand {
 
     public TPCommand(){
         super("tp", "servercore.tp.use");

@@ -1,6 +1,6 @@
 package me.pljr.servercore.commands.teleportcommands;
 
-import me.pljr.pljrapispigot.utils.CommandUtil;
+import me.pljr.pljrapispigot.commands.BukkitCommand;
 import me.pljr.servercore.config.Lang;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -8,7 +8,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-public class TopBlockCommand extends CommandUtil {
+public class TopBlockCommand extends BukkitCommand {
 
     public TopBlockCommand(){
         super("topblock", "Servercore.topblock.use");

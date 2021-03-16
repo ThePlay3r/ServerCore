@@ -26,7 +26,7 @@ public class PlayerCommandPreprocessListener implements Listener {
 
             for (Player p : Bukkit.getOnlinePlayers()){
                 UUID pID = p.getUniqueId();
-                playerManager.getCorePlayer(pID, pCore -> {
+                playerManager.getPlayer(pID, pCore -> {
                     if (pCore.isSpy()){
                         p.sendMessage("&c" + playerName + " &8> &c" + message);
                     }

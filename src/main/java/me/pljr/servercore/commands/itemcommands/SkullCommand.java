@@ -1,13 +1,13 @@
 package me.pljr.servercore.commands.itemcommands;
 
 import me.pljr.pljrapispigot.builders.ItemBuilder;
-import me.pljr.pljrapispigot.utils.CommandUtil;
+import me.pljr.pljrapispigot.commands.BukkitCommand;
 import me.pljr.pljrapispigot.utils.PlayerUtil;
 import me.pljr.pljrapispigot.xseries.XMaterial;
 import me.pljr.servercore.config.Lang;
 import org.bukkit.entity.Player;
 
-public class SkullCommand extends CommandUtil {
+public class SkullCommand extends BukkitCommand {
 
     public SkullCommand(){
         super("skull", "servercore.skull.use");

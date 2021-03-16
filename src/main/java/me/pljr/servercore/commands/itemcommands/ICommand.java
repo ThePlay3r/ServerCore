@@ -1,6 +1,6 @@
 package me.pljr.servercore.commands.itemcommands;
 
-import me.pljr.pljrapispigot.utils.CommandUtil;
+import me.pljr.pljrapispigot.commands.BukkitCommand;
 import me.pljr.pljrapispigot.utils.PlayerUtil;
 import me.pljr.pljrapispigot.xseries.XMaterial;
 import me.pljr.servercore.config.Lang;
@@ -8,7 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class ICommand extends CommandUtil implements CommandExecutor {
+public class ICommand extends BukkitCommand {
 
     public ICommand(){
         super("i", "servercore.i.use");

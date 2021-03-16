@@ -1,6 +1,6 @@
 package me.pljr.servercore.commands.worldcommands;
 
-import me.pljr.pljrapispigot.utils.CommandUtil;
+import me.pljr.pljrapispigot.commands.BukkitCommand;
 import me.pljr.servercore.config.Lang;
 import me.pljr.servercore.config.Settings;
 import org.bukkit.Bukkit;
@@ -8,7 +8,7 @@ import org.bukkit.World;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
-public class SunCommand extends CommandUtil {
+public class SunCommand extends BukkitCommand {
 
     private final Settings settings;
 

@@ -1,6 +1,6 @@
 package me.pljr.servercore.commands.teleportcommands;
 
-import me.pljr.pljrapispigot.utils.CommandUtil;
+import me.pljr.pljrapispigot.commands.BukkitCommand;
 import me.pljr.servercore.config.Lang;
 import me.pljr.servercore.managers.PlayerManager;
 import org.bukkit.Bukkit;
@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class TpaCommand extends CommandUtil {
+public class TpaCommand extends BukkitCommand {
 
     private final PlayerManager playerManager;
 
@@ -26,7 +26,7 @@ public class TpaCommand extends CommandUtil {
             if (!checkPlayer(player, args[0])) return;
             Player target = Bukkit.getPlayer(args[0]);
             UUID targetId = target.getUniqueId();
-            playerManager.getCorePlayer(targetId, coreTarget -> {
+            playerManager.getPlayer(targetId, coreTarget -> {
                 if (coreTarget.getTpaBlocked().contains(playerName)){
                     sendMessage(player, Lang.TPA_FAILURE_BLOCKED.get().replace("{player}", args[0]));
                     return;

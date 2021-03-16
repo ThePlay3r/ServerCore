@@ -1,11 +1,11 @@
 package me.pljr.servercore.commands.teleportcommands;
 
-import me.pljr.pljrapispigot.utils.CommandUtil;
+import me.pljr.pljrapispigot.commands.BukkitCommand;
 import me.pljr.servercore.managers.PlayerManager;
 import me.pljr.servercore.menus.BackMenu;
 import org.bukkit.entity.Player;
 
-public class BackCommand extends CommandUtil {
+public class BackCommand extends BukkitCommand {
 
     private final PlayerManager playerManager;
 
@@ -17,6 +17,6 @@ public class BackCommand extends CommandUtil {
     @Override
     public void onPlayerCommand(Player player, String[] args){
         // /back
-        playerManager.getCorePlayer(player.getUniqueId(), corePlayer -> new BackMenu(player, corePlayer).getGui().open(player));
+        playerManager.getPlayer(player.getUniqueId(), corePlayer -> new BackMenu(player, corePlayer).getGui().open(player));
     }
 }

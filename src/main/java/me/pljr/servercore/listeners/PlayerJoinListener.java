@@ -25,7 +25,7 @@ public class PlayerJoinListener implements Listener {
         Player player = event.getPlayer();
         UUID playerId = player.getUniqueId();
 
-        playerManager.getCorePlayer(playerId, corePlayer -> {
+        playerManager.getPlayer(playerId, corePlayer -> {
             Location spawn = spawnManager.getLocation();
 
             if (spawn != null){

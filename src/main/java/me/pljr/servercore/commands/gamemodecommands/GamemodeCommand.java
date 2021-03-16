@@ -1,6 +1,7 @@
 package me.pljr.servercore.commands.gamemodecommands;
 
-import me.pljr.pljrapispigot.utils.CommandUtil;
+import me.pljr.pljrapispigot.commands.BukkitCommand;
+import me.pljr.pljrapispigot.commands.BukkitCommand;
 import me.pljr.servercore.config.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -8,7 +9,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
-public class GamemodeCommand extends CommandUtil implements CommandExecutor {
+public class GamemodeCommand extends BukkitCommand {
 
     public GamemodeCommand(){
         super("gamemode", "servercore.gamemode.use");
@@ -30,6 +31,8 @@ public class GamemodeCommand extends CommandUtil implements CommandExecutor {
                 if (!checkPerm(player, "servercore.gamemode.use.creative")) return;
                 player.setGameMode(GameMode.CREATIVE);
                 sendMessage(player, Lang.GAMEMODE_SUCCESS.get().replace("{type}", "Creative"));
+                sendMessageClean(player, Lang.GAMEMODE_SUCCESS.get().replace("{type}", "Creative"));
+                System.out.println("executed");
                 return;
             }
 

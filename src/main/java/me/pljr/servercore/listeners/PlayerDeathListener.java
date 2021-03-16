@@ -18,9 +18,9 @@ public class PlayerDeathListener implements Listener {
     public void onDeath(PlayerDeathEvent event){
         Player player = event.getEntity();
         UUID playerId = player.getUniqueId();
-        playerManager.getCorePlayer(playerId, corePlayer -> {
+        playerManager.getPlayer(playerId, corePlayer -> {
             corePlayer.setDeathLoc(player.getLocation());
-            playerManager.setCorePlayer(playerId, corePlayer);
+            playerManager.setPlayer(playerId, corePlayer);
         });
     }
 }

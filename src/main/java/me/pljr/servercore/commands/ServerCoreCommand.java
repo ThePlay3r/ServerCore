@@ -1,6 +1,6 @@
 package me.pljr.servercore.commands;
 
-import me.pljr.pljrapispigot.utils.CommandUtil;
+import me.pljr.pljrapispigot.commands.BukkitCommand;
 import me.pljr.servercore.ServerCore;
 import me.pljr.servercore.config.Lang;
 import me.pljr.servercore.managers.PlayerManager;
@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class ServerCoreCommand extends CommandUtil implements CommandExecutor {
+public class ServerCoreCommand extends BukkitCommand {
 
     private final ServerCore serverCore;
     private final PlayerManager playerManager;
@@ -24,7 +24,7 @@ public class ServerCoreCommand extends CommandUtil implements CommandExecutor {
     public void onPlayerCommand(Player player, String[] args){
         UUID playerId = player.getUniqueId();
 
-        playerManager.getCorePlayer(playerId, corePlayer -> {
+        playerManager.getPlayer(playerId, corePlayer -> {
             if (args.length == 1){
                 // /servercore spy
                 if (args[0].equalsIgnoreCase("spy")){

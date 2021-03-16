@@ -1,6 +1,6 @@
 package me.pljr.servercore.commands.teleportcommands;
 
-import me.pljr.pljrapispigot.utils.CommandUtil;
+import me.pljr.pljrapispigot.commands.BukkitCommand;
 import me.pljr.servercore.config.Lang;
 import me.pljr.servercore.managers.PlayerManager;
 import org.bukkit.entity.Player;
@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import java.util.List;
 import java.util.UUID;
 
-public class TpignoreCommand extends CommandUtil {
+public class TpignoreCommand extends BukkitCommand {
 
     private final PlayerManager playerManager;
 
@@ -21,7 +21,7 @@ public class TpignoreCommand extends CommandUtil {
     public void onPlayerCommand(Player player, String[] args){
         UUID playerId = player.getUniqueId();
 
-        playerManager.getCorePlayer(playerId, corePlayer -> {
+        playerManager.getPlayer(playerId, corePlayer -> {
             List<String> tpaBlocked = corePlayer.getTpaBlocked();
 
             if (args.length == 1){
@@ -33,7 +33,7 @@ public class TpignoreCommand extends CommandUtil {
                     tpaBlocked.add(args[0]);
                     sendMessage(player, Lang.TPIGNORE_SUCCESS_ADD.get().replace("{player}", args[0]));
                 }
-                playerManager.setCorePlayer(playerId, corePlayer);
+                playerManager.setPlayer(playerId, corePlayer);
                 return;
             }
 

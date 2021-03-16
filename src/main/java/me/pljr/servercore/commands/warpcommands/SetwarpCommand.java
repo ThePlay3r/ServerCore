@@ -1,12 +1,12 @@
 package me.pljr.servercore.commands.warpcommands;
 
-import me.pljr.pljrapispigot.utils.CommandUtil;
+import me.pljr.pljrapispigot.commands.BukkitCommand;
 import me.pljr.servercore.config.Lang;
 import me.pljr.servercore.managers.WarpManager;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-public class SetwarpCommand extends CommandUtil {
+public class SetwarpCommand extends BukkitCommand {
 
     private final WarpManager warpManager;
 

@@ -1,6 +1,6 @@
 package me.pljr.servercore.commands.itemcommands;
 
-import me.pljr.pljrapispigot.utils.CommandUtil;
+import me.pljr.pljrapispigot.commands.BukkitCommand;
 import me.pljr.pljrapispigot.utils.FormatUtil;
 import me.pljr.servercore.config.Lang;
 import org.apache.commons.lang.ArrayUtils;
@@ -13,7 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReloreCommand extends CommandUtil {
+public class ReloreCommand extends BukkitCommand {
 
     public ReloreCommand(){
         super("relore", "servercore.relore.use");

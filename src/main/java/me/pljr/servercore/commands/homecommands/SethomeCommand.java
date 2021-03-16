@@ -1,6 +1,6 @@
 package me.pljr.servercore.commands.homecommands;
 
-import me.pljr.pljrapispigot.utils.CommandUtil;
+import me.pljr.pljrapispigot.commands.BukkitCommand;
 import me.pljr.servercore.config.Lang;
 import me.pljr.servercore.managers.PlayerManager;
 import me.pljr.servercore.utils.HomeUtil;
@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class SethomeCommand extends CommandUtil {
+public class SethomeCommand extends BukkitCommand {
 
     private final PlayerManager playerManager;
 
@@ -23,7 +23,7 @@ public class SethomeCommand extends CommandUtil {
         Location playerLoc = player.getLocation();
         UUID playerId = player.getUniqueId();
 
-        playerManager.getCorePlayer(playerId, corePlayer -> {
+        playerManager.getPlayer(playerId, corePlayer -> {
             int currentHomes = corePlayer.getHomes().size();
             int maxHomes = HomeUtil.getMax(player);
             boolean canMore = maxHomes > currentHomes;

@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -14,7 +15,7 @@ import java.util.UUID;
 @Getter
 @AllArgsConstructor
 public class SCorePlayer {
-    private UUID uuid;
+    private final UUID uuid;
     private Location lastLoc;
     private Location deathLoc;
     private final HashMap<String, Location> homes;

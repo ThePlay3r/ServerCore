@@ -1,6 +1,6 @@
 package me.pljr.servercore.commands.homecommands;
 
-import me.pljr.pljrapispigot.utils.CommandUtil;
+import me.pljr.pljrapispigot.commands.BukkitCommand;
 import me.pljr.servercore.config.Lang;
 import me.pljr.servercore.managers.PlayerManager;
 import org.bukkit.Bukkit;
@@ -8,7 +8,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-public class ADelhomeCommand extends CommandUtil {
+public class ADelhomeCommand extends BukkitCommand {
 
     private final PlayerManager playerManager;
 

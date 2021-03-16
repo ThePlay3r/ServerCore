@@ -1,6 +1,6 @@
 package me.pljr.servercore.commands.warpcommands;
 
-import me.pljr.pljrapispigot.utils.CommandUtil;
+import me.pljr.pljrapispigot.commands.BukkitCommand;
 import me.pljr.servercore.config.Lang;
 import me.pljr.servercore.managers.WarpManager;
 import org.bukkit.command.Command;
@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
-public class DelwarpCommand extends CommandUtil {
+public class DelwarpCommand extends BukkitCommand {
 
     private final WarpManager warpManager;
 

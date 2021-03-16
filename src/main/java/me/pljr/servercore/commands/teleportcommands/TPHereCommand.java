@@ -1,11 +1,11 @@
 package me.pljr.servercore.commands.teleportcommands;
 
-import me.pljr.pljrapispigot.utils.CommandUtil;
+import me.pljr.pljrapispigot.commands.BukkitCommand;
 import me.pljr.servercore.config.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-public class TPHereCommand extends CommandUtil {
+public class TPHereCommand extends BukkitCommand {
 
     public TPHereCommand(){
         super("tphere", "servercore.tphere.use");

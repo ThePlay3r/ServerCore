@@ -1,5 +1,6 @@
 package me.pljr.servercore;
 
+import me.pljr.pljrapispigot.PLJRApiSpigot;
 import me.pljr.pljrapispigot.database.DataSource;
 import me.pljr.pljrapispigot.managers.ConfigManager;
 import me.pljr.servercore.commands.ServerCoreCommand;
@@ -33,6 +34,8 @@ public final class ServerCore extends JavaPlugin {
 
     public static Logger log;
 
+    private PLJRApiSpigot pljrApiSpigot;
+
     private PlayerManager playerManager;
     private QueryManager queryManager;
     private WarpManager warpManager;
@@ -50,11 +53,21 @@ public final class ServerCore extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         log = this.getLogger();
+        if (!setupPLJRApi()) return;
         setupConfig();
         setupDatabase();
         setupManagers();
         setupListeners();
         setupComands();
+    }
+
+    public boolean setupPLJRApi(){
+        if (PLJRApiSpigot.get() == null){
+            getLogger().warning("PLJRApi-Spigot is not enabled!");
+            return false;
+        }
+        pljrApiSpigot = PLJRApiSpigot.get();
+        return true;
     }
 
     public void setupConfig(){
@@ -92,7 +105,7 @@ public final class ServerCore extends JavaPlugin {
     }
 
     private void setupDatabase(){
-        queryManager = new QueryManager(DataSource.getFromConfig(configManager));
+        queryManager = new QueryManager(pljrApiSpigot.getDataSource(configManager));
         queryManager.setupTables();
         for (Player player : Bukkit.getOnlinePlayers()){
             Bukkit.getScheduler().runTaskAsynchronously(this, () -> queryManager.loadPlayer(player.getUniqueId()));
@@ -163,7 +176,7 @@ public final class ServerCore extends JavaPlugin {
         spawnManager.saveToFile();
         queryManager.saveWarps(warpManager.getWarps());
         for (Player player : Bukkit.getOnlinePlayers()){
-            playerManager.getCorePlayer(player.getUniqueId(), queryManager::savePlayer);
+            playerManager.getPlayer(player.getUniqueId(), queryManager::savePlayer);
         }
     }
 }

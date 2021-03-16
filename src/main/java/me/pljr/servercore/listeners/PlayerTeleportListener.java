@@ -18,9 +18,9 @@ public class PlayerTeleportListener implements Listener {
     public void onTeleport(PlayerTeleportEvent event){
         Player player = event.getPlayer();
         UUID playerId = player.getUniqueId();
-        playerManager.getCorePlayer(playerId, corePlayer -> {
+        playerManager.getPlayer(playerId, corePlayer -> {
             corePlayer.setLastLoc(event.getFrom());
-            playerManager.setCorePlayer(playerId, corePlayer);
+            playerManager.setPlayer(playerId, corePlayer);
         });
     }
 }

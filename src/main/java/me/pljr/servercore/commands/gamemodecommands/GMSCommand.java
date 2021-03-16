@@ -1,12 +1,12 @@
 package me.pljr.servercore.commands.gamemodecommands;
 
-import me.pljr.pljrapispigot.utils.CommandUtil;
+import me.pljr.pljrapispigot.commands.BukkitCommand;
 import me.pljr.servercore.config.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
-public class GMSCommand extends CommandUtil {
+public class GMSCommand extends BukkitCommand {
 
     public GMSCommand(){
         super("gms", "servercore.gamemode.use.survival");

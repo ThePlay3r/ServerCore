@@ -1,6 +1,6 @@
 package me.pljr.servercore.commands.teleportcommands;
 
-import me.pljr.pljrapispigot.utils.CommandUtil;
+import me.pljr.pljrapispigot.commands.BukkitCommand;
 import me.pljr.servercore.config.Lang;
 import me.pljr.servercore.managers.SpawnManager;
 import org.bukkit.Bukkit;
@@ -9,7 +9,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class ASpawnCommand extends CommandUtil {
+public class ASpawnCommand extends BukkitCommand {
 
     private final SpawnManager spawnManager;
 

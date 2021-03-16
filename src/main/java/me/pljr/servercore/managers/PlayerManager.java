@@ -15,7 +15,6 @@ import java.util.UUID;
 import java.util.function.Consumer;
 
 @AllArgsConstructor
-@Builder()
 public class PlayerManager {
     private final static int AUTOSAVE = 12000;
 
@@ -24,11 +23,11 @@ public class PlayerManager {
     private final QueryManager queryManager;
     private final boolean cachePlayers;
 
-    public void getCorePlayer(UUID uuid, Consumer<SCorePlayer> consumer){
+    public void getPlayer(UUID uuid, Consumer<SCorePlayer> consumer){
         if (!players.containsKey(uuid)){
             Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
                 SCorePlayer scorePlayer = queryManager.loadPlayer(uuid);
-                setCorePlayer(uuid, scorePlayer);
+                setPlayer(uuid, scorePlayer);
                 consumer.accept(scorePlayer);
             });
         }else{
@@ -36,7 +35,7 @@ public class PlayerManager {
         }
     }
 
-    public void setCorePlayer(UUID uuid, SCorePlayer scorePlayer){
+    public void setPlayer(UUID uuid, SCorePlayer scorePlayer){
         players.put(uuid, scorePlayer);
     }
 

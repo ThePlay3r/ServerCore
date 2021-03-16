@@ -1,6 +1,6 @@
 package me.pljr.servercore.commands.movementcommands;
 
-import me.pljr.pljrapispigot.utils.CommandUtil;
+import me.pljr.pljrapispigot.commands.BukkitCommand;
 import me.pljr.servercore.config.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
-public class FSpeedCommand extends CommandUtil implements CommandExecutor {
+public class FSpeedCommand extends BukkitCommand {
 
     public FSpeedCommand(){
         super("fspeed", "servercore.fspeed.use");

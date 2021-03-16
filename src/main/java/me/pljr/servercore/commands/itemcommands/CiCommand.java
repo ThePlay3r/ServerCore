@@ -1,13 +1,13 @@
 package me.pljr.servercore.commands.itemcommands;
 
-import me.pljr.pljrapispigot.utils.CommandUtil;
+import me.pljr.pljrapispigot.commands.BukkitCommand;
 import me.pljr.servercore.config.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
-public class CiCommand extends CommandUtil {
+public class CiCommand extends BukkitCommand {
 
     public CiCommand(){
         super("ci", "servercore.ci.use");

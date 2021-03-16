@@ -1,12 +1,12 @@
 package me.pljr.servercore.commands.gamemodecommands;
 
-import me.pljr.pljrapispigot.utils.CommandUtil;
+import me.pljr.pljrapispigot.commands.BukkitCommand;
 import me.pljr.servercore.config.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
-public class GMCCommand extends CommandUtil {
+public class GMCCommand extends BukkitCommand {
 
     public GMCCommand(){
         super("gmc", "servercore.gamemode.use.creative");

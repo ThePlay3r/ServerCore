@@ -1,11 +1,11 @@
 package me.pljr.servercore.commands.homecommands;
 
-import me.pljr.pljrapispigot.utils.CommandUtil;
+import me.pljr.pljrapispigot.commands.BukkitCommand;
 import me.pljr.servercore.config.Lang;
 import me.pljr.servercore.managers.PlayerManager;
 import org.bukkit.entity.Player;
 
-public class DelhomeCommand extends CommandUtil {
+public class DelhomeCommand extends BukkitCommand {
 
     private final PlayerManager playerManager;
 

@@ -1,6 +1,6 @@
 package me.pljr.servercore.commands.homecommands;
 
-import me.pljr.pljrapispigot.utils.CommandUtil;
+import me.pljr.pljrapispigot.commands.BukkitCommand;
 import me.pljr.pljrapispigot.utils.PlayerUtil;
 import me.pljr.servercore.config.Lang;
 import me.pljr.servercore.managers.PlayerManager;
@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class AHomeCommand extends CommandUtil {
+public class AHomeCommand extends BukkitCommand {
 
     private final PlayerManager playerManager;
 
@@ -26,7 +26,7 @@ public class AHomeCommand extends CommandUtil {
             // /ahome <player> <home>
             OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
             UUID targetId = target.getUniqueId();
-            playerManager.getCorePlayer(targetId, coreTarget -> {
+            playerManager.getPlayer(targetId, coreTarget -> {
                 Location targetHome = coreTarget.getHomes().get(args[1]);
                 if (targetHome == null){
                     sendMessage(player, Lang.AHOME_FAILURE_NO_HOME.get().replace("{player}", args[0]).replace("{home}", args[1]));
