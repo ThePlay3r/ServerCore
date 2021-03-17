@@ -2,7 +2,7 @@ package me.pljr.servercore.utils;
 
 import org.bukkit.entity.Player;
 
-public class HomeUtil {
+public final class HomeUtil {
 
     public static int getMax(Player player){
         int max = 0;

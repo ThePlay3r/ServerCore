@@ -26,17 +26,17 @@ public class PlayerManager {
     public void getPlayer(UUID uuid, Consumer<SCorePlayer> consumer){
         if (!players.containsKey(uuid)){
             Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-                SCorePlayer scorePlayer = queryManager.loadPlayer(uuid);
-                setPlayer(uuid, scorePlayer);
-                consumer.accept(scorePlayer);
+                SCorePlayer player = queryManager.loadPlayer(uuid);
+                setPlayer(uuid, player);
+                consumer.accept(player);
             });
         }else{
             consumer.accept(players.get(uuid));
         }
     }
 
-    public void setPlayer(UUID uuid, SCorePlayer scorePlayer){
-        players.put(uuid, scorePlayer);
+    public void setPlayer(UUID uuid, SCorePlayer player){
+        players.put(uuid, player);
     }
 
     public void savePlayer(UUID uuid){
