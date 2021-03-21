@@ -22,7 +22,7 @@ public class SunCommand extends BukkitCommand {
         World world = player.getWorld();
         world.setStorm(false);
         world.setThundering(false);
-        sendMessage(player, Lang.NIGHT_SUCCESS.get());
+        sendMessage(player, Lang.SUN_SUCCESS.get());
     }
 
     @Override
@@ -30,6 +30,6 @@ public class SunCommand extends BukkitCommand {
         World world = Bukkit.getWorld(settings.getDefaultWorld());
         world.setStorm(false);
         world.setThundering(false);
-        sendMessage(sender, Lang.NIGHT_SUCCESS.get());
+        sendMessage(sender, Lang.SUN_SUCCESS.get());
     }
 }

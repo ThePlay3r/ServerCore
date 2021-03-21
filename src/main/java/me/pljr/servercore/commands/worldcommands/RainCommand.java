@@ -21,13 +21,13 @@ public class RainCommand extends BukkitCommand {
     public void onPlayerCommand(Player player, String[] args){
         World world = player.getWorld();
         world.setStorm(true);
-        sendMessage(player, Lang.NIGHT_SUCCESS.get());
+        sendMessage(player, Lang.RAIN_SUCCESS.get());
     }
 
     @Override
     public void onConsoleCommand(ConsoleCommandSender sender, String[] args){
         World world = Bukkit.getWorld(settings.getDefaultWorld());
         world.setStorm(true);
-        sendMessage(sender, Lang.NIGHT_SUCCESS.get());
+        sendMessage(sender, Lang.RAIN_SUCCESS.get());
     }
 }

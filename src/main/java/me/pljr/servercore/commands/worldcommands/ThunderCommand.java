@@ -22,7 +22,7 @@ public class ThunderCommand extends BukkitCommand {
         World world = player.getWorld();
         world.setStorm(true);
         world.setThundering(true);
-        sendMessage(player, Lang.NIGHT_SUCCESS.get());
+        sendMessage(player, Lang.THUNDER_SUCCESS.get());
     }
 
     @Override
@@ -30,6 +30,6 @@ public class ThunderCommand extends BukkitCommand {
         World world = Bukkit.getWorld(settings.getDefaultWorld());
         world.setStorm(true);
         world.setThundering(true);
-        sendMessage(sender, Lang.NIGHT_SUCCESS.get());
+        sendMessage(sender, Lang.THUNDER_SUCCESS.get());
     }
 }
