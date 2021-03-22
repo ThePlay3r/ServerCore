@@ -18,10 +18,10 @@ public class FlyCommand extends BukkitCommand  {
         if (args.length == 0){
             // /fly
             if (player.isFlying()){
-                player.setFlying(false);
+                player.setAllowFlight(false);
                 sendMessage(player, Lang.FLY_SUCCESS_OFF.get());
             }else{
-                player.setFlying(true);
+                player.setAllowFlight(true);
                 sendMessage(player, Lang.FLY_SUCCESS_ON.get());
             }
             return;
